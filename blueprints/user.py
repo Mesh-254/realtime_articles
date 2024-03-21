@@ -11,7 +11,7 @@ user = Blueprint('user', __name__)
 @user.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return "heeey"
+        return redirect(url_for('user.index'))
 
     form = UserLoginForm()
     if form.validate_on_submit():
@@ -27,17 +27,16 @@ def login():
                 next_page = url_for('user.index')
                 return redirect(next_page)
         else:
-            flash('Invalid username or password', 'error')
+            flash('Invalid username or password', 'danger')
             return redirect(url_for('user.login'))
-    return render_template('login/log.html', form=form)
+    return render_template('login/login.html', form=form)
 
 
 @user.route('/')
 @user.route('/index')
-@login_required
 def index():
     user = {'username': 'Miguel'}
-    return render_template('sample.html', title='Home', user=user)
+    return render_template('home/blog_list.html', title='Home', user=user)
 
 
 @user.route('/logout')
