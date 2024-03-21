@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CDN for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* Custom seagreen color */
+        .btn-seagreen {
+            color: #fff;
+            background-color: #2E8B57; /* Seagreen color */
+            border-color: #2E8B57; /* Seagreen color */
+        }
+
+        .btn-seagreen:hover {
+            color: #fff;
+            background-color: #3CB371; /* Seagreen color on hover */
+            border-color: #3CB371; /* Seagreen color on hover */
+        }
+
+        .checkbox-wrap input[type="checkbox"] {
+            margin-right: 5px; /* Adjust the spacing between the checkbox and label */
+        }
+
+        .checkbox-wrap {
+            color: #2E8B57; /* Sea green color */
+            display: inline-flex; /* Make the label and input inline */
+            align-items: center; /* Align items vertically */
+        }
+    </style>
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Realtime Articles</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10">
+                <div class="wrap d-md-flex">
+                    <div class="img" style="background-image: url(static/images/login_images/pen.jpg);"></div>
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4">Log In</h3>
+                            </div>
+                            <div class="w-100">
+                                <!-- Social Media Icons with Bootstrap and Font Awesome -->
+                                <p class="social-media d-flex justify-content-end">
+                                    <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span
+                                            class="fab fa-facebook-f"></span></a>
+                                    <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span
+                                            class="fab fa-twitter"></span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <form action="{{ url_for('user.login') }}" method="post" class="signin-form">
+                            <div class="form-group mb-3">
+                                <label class="label" for="email_or_username">Email or Username</label>
+                                <input type="text" name="email_or_username" id="email_or_username"
+                                       class="form-control" placeholder="Username or Email" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="password">Password</label>
+                                <input type="password" name="password" id="password"
+                                       class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <!-- Seagreen Button -->
+                                <button type="submit" class="form-control btn btn-seagreen rounded submit px-3">Sign
+                                    In
+                                </button>
+                            </div>
+                            <div class="form-group d-md-flex">
+                                <div class="w-50 text-left" style="color: #2E8B57;">
+                                    <input type="checkbox" name="remember_me" id="remember_me" class="checkbox-wrap checkbox-primary mb-0">
+                                    <label for="remember_me">Remember Me</label>
+                                </div>
+                                <div class="w-50 text-md-right">
+                                    <a href="#">Forgot Password</a>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Bootstrap JS CDN (Optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/login_js/9BOGYJHShZ67.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login_js/JQyigloY12GX.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login_js/Qn9dNLEW7rfP.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login_js/oEMfmjzJYlvV.js') }}"></script>
+</body>
+</html>
