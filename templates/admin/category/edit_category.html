@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+
+    <div class="row" style="color: #4e4e4e; font-style: 'Poppins'; font-size: 2.6rem; ">
+        <div class="col-md-12" style=" border-bottom: 1px solid white;">{{ title }}</div>
+    </div>
+
+    <br>
+
+    <div style="width: 70%;"> <!-- Set form width to 70% and center it -->
+        <form method="post" action="">
+            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label(class="form-control-label") }}
+                {{ form.name(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.description.label(class="form-control-label") }}
+                {{ form.description(class="form-control") }}
+            </div>
+            <br>
+            <hr>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-success btn-sm" style="margin-right: 10px; width: 100px">Save
+                </button>
+
+                <button type="reset" class="btn btn-info btn-sm" style="margin-right: 10px;  width: 100px">Reset
+                </button>
+
+                <a href="{{ url_for('article.category_list') }}" class="btn btn-danger btn-sm"
+                   style="margin-right: 10px;  width: 100px"">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock content %}
