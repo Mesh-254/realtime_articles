@@ -59,7 +59,7 @@ a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #353935;
+    background: #34495e;
     color: #fff;
     transition: all 0.3s;
 }
@@ -69,8 +69,9 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
-    padding: 20px;
-    background: #353935;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    background: #34495e;
 }
 
 #sidebar ul.components {
@@ -97,7 +98,7 @@ a:focus {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #353935;
+    background: #34495e;
 }
 
 a[data-toggle="collapse"] {

@@ -2599,7 +2599,7 @@ input[type="number"] {
 ========================================================*/
 .sub-bnr {
   margin-top: -90px;
-  min-height: 300px;
+  min-height: 350px;
   text-align: center;
   position:relative;
   background-image:url('/static/images/home_images/jigsaw.jpg');
