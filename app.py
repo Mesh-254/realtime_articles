@@ -5,11 +5,14 @@ from models.database import db
 from flask_login import LoginManager, login_required, current_user
 
 from blueprints.user import user
+from blueprints.article import article
 
 app = Flask(__name__)
 
 app.url_map.strict_slashes = False
+
 app.register_blueprint(user, url_prefix='/')
+app.register_blueprint(article, url_prefix='/')
 
 app.config.from_object(Config)
 
