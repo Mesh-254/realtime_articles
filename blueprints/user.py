@@ -35,11 +35,10 @@ def login():
 @user.route('/')
 @user.route('/index')
 def index():
-    user = {'username': 'Miguel'}
-    return render_template('home/blog_list.html', title='Home', user=user)
+    return render_template('home/blog_list.html', title='Home')
 
 
 @user.route('/logout')
 def logout():
     logout_user()
-    return "you have logged out"
+    return redirect(url_for('user.login'))
