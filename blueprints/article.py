@@ -1,6 +1,6 @@
 from flask import *
 from flask_login import login_required
-from forms import CategoryForm
+from forms import CategoryForm, ArticleForm
 from models.models import Category, Article
 from models.database import db
 
@@ -88,7 +88,38 @@ def delete_category(id):
 
     return render_template('admin/category/delete_category.html', category=category)
 
+
 @article.route('/create_article')
 @login_required
 def create_article():
-    return render_template('')
+    form = ArticleForm()
+    if form.validate_on_submit():
+        # Check if an article with the same title already exists
+        existing_article = Article.query.filter_by(main_title=form.main_title.data).first()
+        if existing_article:
+            flash("Article with the same title already exists!", 'danger')
+            return redirect(url_for('create_article'))
+
+        # Create a new article instance and populate its fields from the form
+        new_article = Article(
+            main_title=form.main_title.data,
+            main_content=form.main_content.data,
+            author_id=form.author_id.data,
+            category_id=form.category_id.data,
+            main_image=form.main_image.data
+        )
+
+        # Add the new article to the database session and commit changes
+        db.session.add(new_article)
+        db.session.commit()
+
+        flash("Article created successfully!", 'success')
+        return redirect(url_for('article.article_list'))  # Redirect to the homepage or any other relevant page
+
+    return render_template('create_article.html', form=form, title='Create Article/Blog')
+
+
+@article.route('/article_list')
+@login_required
+def article_list():
+    pass
