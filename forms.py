@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Email, Length, ValidationError
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField, SelectField
+from wtforms.validators import DataRequired, Length
+from models.models import User, Category
 
 
 class UserLoginForm(FlaskForm):
@@ -12,3 +13,16 @@ class UserLoginForm(FlaskForm):
 class CategoryForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(max=50)])
     description = TextAreaField('Description', render_kw={"rows": 6})  # Set rows attribute to 4
+
+
+class ArticleForm(FlaskForm):
+    main_title = StringField('Main Title', validators=[DataRequired()])
+    main_content = TextAreaField('Main Content')
+    author_id = SelectField('Author', coerce=int, validators=[DataRequired()])
+    category_id = SelectField('Category', coerce=int, validators=[DataRequired()])
+    main_image = StringField('Main Image')
+
+    def __init__(self, *args, **kwargs):
+        super(ArticleForm, self).__init__(*args, **kwargs)
+        self.author_id.choices = [(author.id, author.username) for author in User.query.all()]
+        self.category_id.choices = [(category.id, category.name) for category in Category.query.all()]
