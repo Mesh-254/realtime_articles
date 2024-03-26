@@ -28,7 +28,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <a href="{{ url_for('user.index') }}"><h3> RealtimeArticles </h3></a>
+            <a href="{{ url_for('home.index') }}"><h3> RealtimeArticles </h3></a>
         </div>
 
         <ul class="list-unstyled components">
@@ -64,10 +64,10 @@
                 <a href="#ArticleSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Articles</a>
                 <ul class="collapse list-unstyled" id="ArticleSubmenu">
                     <li>
-                        <a href="#">Create Article</a>
+                        <a href="{{ url_for('article.create_article') }}">Create Article</a>
                     </li>
                     <li>
-                        <a href="#">Article List</a>
+                        <a href="{{ url_for('article.article_list') }}">Article List</a>
                     </li>
 
                 </ul>
@@ -99,7 +99,7 @@
                 <a href="{{ url_for('user.logout') }}" class="download">log out</a>
             </li>
             <li>
-                <a href="{{ url_for('user.index') }}" class="article">Back to Articles</a>
+                <a href="{{ url_for('home.index') }}" class="article">Back to Articles</a>
             </li>
         </ul>
     </nav>
