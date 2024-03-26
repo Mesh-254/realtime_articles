@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField, SelectField, FileField
 from wtforms.validators import DataRequired, Length
 from models.models import User, Category
 
@@ -17,12 +17,13 @@ class CategoryForm(FlaskForm):
 
 class ArticleForm(FlaskForm):
     main_title = StringField('Main Title', validators=[DataRequired()])
-    main_content = TextAreaField('Main Content')
+    main_content = TextAreaField('Main Content', render_kw={"rows": 10})
     author_id = SelectField('Author', coerce=int, validators=[DataRequired()])
     category_id = SelectField('Category', coerce=int, validators=[DataRequired()])
-    main_image = StringField('Main Image')
+    main_image = FileField('Main Image', render_kw={"class": "form-control"})
 
     def __init__(self, *args, **kwargs):
         super(ArticleForm, self).__init__(*args, **kwargs)
         self.author_id.choices = [(author.id, author.username) for author in User.query.all()]
         self.category_id.choices = [(category.id, category.name) for category in Category.query.all()]
+
