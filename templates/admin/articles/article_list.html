@@ -1,0 +1,120 @@
+{% extends "admin/base.html" %}
+
+{% block title %} {{ title }}{% endblock title %}
+
+{% block content %}
+
+    <div class="row" style="color: #4e4e4e; font-style: bold; font-size: 2.3rem; ">
+        <div class="col-md-8">{{ title }}</div>
+        <div class="col-md-4">
+            <div class="float-md-right">
+                <a class="btn btn-success" href="{{ url_for('article.create_article') }}">Create new Article/Blog</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="border-bottom: 1px solid white;"></div>
+
+    <br>
+
+    <table class="table table-css table-bordered table-hover">
+
+
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-md-4">
+                    <form method="get" class="search-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+                                   aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-pink" type="submit" id="button-addon2">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <thead class="thead-dark align-middle">
+        <tr style="background-color: #343a40; font-size: 1.2rem; color: white; text-transform: capitalize; height: 40px">
+            <th width="5%">S/No</th>
+            <th width="40%">Article Title</th>
+            <th width="10%">Category</th>
+            <th width="10%">Author</th>
+            <th width="10%">Date Published</th>
+            <th style="text-align: center">Actions</th>
+        </tr>
+        </thead>
+
+        {% if articles %}
+            {% for article in articles %}
+                <tbody>
+
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>
+                        <p style="text-transform: capitalize; color:black">{{ article.main_title }} </p>
+                    </td>
+
+                    <td>
+                        <p style="text-transform: capitalize; color:black">{{ article.category_name }} </p>
+                    </td>
+                    <td>
+                        <p style="text-transform: capitalize; color:black">{{ article.author_name }} </p>
+                    </td>
+                    <td>
+                        <p style="text-transform: capitalize; color:black">{{ article.date_published.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </td>
+
+                    <td class="align-middle  text-center">
+                        <div class="d-inline-block align-middle">
+                            <a href="{{ url_for('article.update_article', article_id = article.id) }}" class="btn btn-info btn-sm">Edit
+                                Details</a>
+                            <a href="{{ url_for('article.delete_article', article_id = article.id) }}" class="btn btn-danger btn-sm"> Delete
+                                Article </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            {% endfor %}
+
+        {% else %}
+            <tbody>
+            <br><br><br><br><br><br><br><br>
+            <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">The records are empty.
+                Please
+                try
+                adding some.
+            </div>
+            </tbody>
+        {% endif %}
+    </table>
+    <!-- PAGINATION code -->
+    {#<nav aria-label="..." style="text-align: center">#}
+    {#    <ul class="pagination">#}
+    {#        <li class="page-item {% if prev_url is none %}disabled{% endif %}">#}
+    {#            <a class="page-link {% if prev_url is none %}disabled{% endif %}" {% if prev_url is not none#}
+    {#               %}href="{{ prev_url }}" {% endif %} tabindex="-1">Previous</a>#}
+    {#        </li>#}
+    {#        {% for num in range(1, num_pages + 1) %}#}
+    {#        <li class="page-item {% if num == current_page %}active{% endif %}">#}
+    {#            <a class="page-link" href="{{ url_for('jokamu.category_list', page=num) }}" tabindex="3">{{ num }}#}
+    {#                {% if num == current_page %}#}
+    {#                <span class="sr-only">(current)</span>#}
+    {#                {% endif %}#}
+    {#            </a>#}
+    {#        </li>#}
+    {#        {% endfor %}#}
+    {#        <li class="page-item {% if next_url is none %}disabled{% endif %}">#}
+    {#            <a class="page-link {% if next_url is none %}disabled{% endif %}" {% if next_url is not none#}
+    {#               %}href="{{ next_url }}" {% endif %}>Next</a>#}
+    {#        </li>#}
+    {##}
+    {#    </ul>#}
+    {#</nav>#}
+
+
+{% endblock content %}
