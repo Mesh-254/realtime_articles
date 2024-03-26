@@ -2,6 +2,7 @@ from app import app
 from models.database import db
 from models.models import User
 
+
 # function to create user manually to database
 def create_user(username, email, password):
     with app.app_context():
@@ -24,9 +25,8 @@ def create_user(username, email, password):
             db.session.rollback()
             return f"An error occurred: {str(e)}"
 
+
 # Example usage:
 if __name__ == "__main__":
     result = create_user('meshack', 'meshack@example.com', 'meshack@2024')
     print(result)
-
-
