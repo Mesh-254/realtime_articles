@@ -39,7 +39,18 @@
             align-items: center; /* Align items vertically */
         }
 
+        /* Custom CSS for success and danger flash messages */
+        .alert-success {
+            color: #155724; /* Dark green text color for success messages */
+            background-color: #d4edda; /* Light green background color for success messages */
+            border-color: #c3e6cb; /* Light green border color for success messages */
+        }
 
+        .alert{
+            color: #721c24; /* Dark red text color for danger messages */
+            background-color: #f8d7da; /* Light red background color for danger messages */
+            border-color: #f5c6cb; /* Light red border color for danger messages */
+        }
     </style>
 
 </head>
@@ -51,6 +62,7 @@
                 <h2 class="heading-section">Realtime Articles</h2>
             </div>
         </div>
+        {#    FLASH MESSAGES #}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -65,6 +77,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-10">
                 <div class="wrap d-md-flex">
@@ -88,7 +101,7 @@
                             </div>
                         </div>
                         <form action="{{ url_for('user.login') }}" method="post" class="signin-form">
-                              {{ form.hidden_tag() }}
+                            {{ form.hidden_tag() }}
                             <div class="form-group mb-3">
                                 {{ form.email_or_username.label(class="label") }}
                                 {{ form.email_or_username(class="form-control", placeholder="Username or Email", required="") }}
