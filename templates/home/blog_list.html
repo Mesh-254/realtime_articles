@@ -98,44 +98,39 @@
 
         <!-- Blog List -->
         <section class="blog-list blog-list-3 padding-top-100 padding-bottom-100">
-            <div class="container-fluid" style="display: flex">
-                {% if articles %}
-                    {% for article in articles %}
-                        <div class="row" >
-                            <article class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img class="img-responsive"
-                                             src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}"
-                                             alt="Image">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="post-tittle left">
-                                            <a href="#." class="tittle">{{ article.main_title }}</a>
-                                            <span><i
-                                                    class="primary-color fas fa-user"></i>  by {{ article.author_id.username }}</span>
-                                            <span><i
-                                                    class="primary-color fas fa-calendar"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
-                                            <span><i class="primary-color fas fa-comment"></i> 05</span>
-                                            <span><i
-                                                    class="primary-color fas fa-tag"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
-
-                                        </div>
-                                        <div class="text-left">
-                                            <p>{{ article.main_content }}</p>
-                                            <a href="#." class="red-more">READ MORE</a>
-                                        </div>
-                                        <hr>
-                                    </div>
+    <div class="container-fluid px-2"> <!-- Added px-2 for left and right padding -->
+        <div class="row no-padding-col"> <!-- Apply no-padding-col class to remove column padding -->
+            {% if articles %}
+                {% for article in articles %}
+                    <div class="col-md-4">
+                        <article>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="#">
+                                        <img class="img-responsive" src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}" alt="Image">
+                                    </a>
                                 </div>
-                            </article>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </section>
-
-
+                                <div class="col-md-12">
+                                    <div class="post-tittle left">
+                                        <a href="#." class="tittle">{{ article.main_title }}</a>
+                                        <span><i class="primary-color fas fa-user"></i> by {{ article.author_id.username }}</span>
+                                        <span><i class="primary-color fas fa-calendar"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
+                                        <span><i class="primary-color fas fa-tag"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
+                                    </div>
+                                    <div class="text-left">
+                                        <p class="truncate-text">{{ article.main_content }}</p>
+                                        <a href="#." class="red-more">READ MORE</a>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
     </div>
 
     <!-- FOOTER -->
@@ -205,6 +200,18 @@
 
         menuToggle.addEventListener('click', function () {
             navMenu.classList.toggle('active');
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var maxWords = 50;
+        var paragraphs = document.querySelectorAll('.truncate-text');
+        paragraphs.forEach(function (paragraph) {
+            var words = paragraph.textContent.split(' ');
+            if (words.length > maxWords) {
+                paragraph.textContent = words.slice(0, maxWords).join(' ') + '.....';
+            }
         });
     });
 </script>
