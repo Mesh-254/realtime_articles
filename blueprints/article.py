@@ -3,8 +3,8 @@ from flask import *
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from forms import CategoryForm, ArticleForm
-from models.models import Category, Article, User
+from forms import CategoryForm, ArticleForm, SubheadingForm
+from models.models import Category, Article, User, Subheading
 from models.database import db
 
 article = Blueprint('article', __name__)
@@ -89,7 +89,8 @@ def delete_category(id):
         flash('Category has been successfully deleted!', 'success')
         return redirect(url_for('article.category_list'))
 
-    return render_template('admin/category/delete_category.html', category=category)
+    return render_template('admin/category/delete_category.html',
+                           category=category)
 
 
 @article.route('/create_article', methods=['GET', 'POST'])
@@ -128,10 +129,8 @@ def create_article():
         db.session.add(new_article)
         db.session.commit()
         flash(" Your Article/Blog was created successfully!", 'success')
-        return redirect(url_for('article.article_list'))  # Redirect to the homepage or any other relevant page
+        return redirect(url_for('article.article_list'))
     return render_template('admin/articles/edit_article.html', form=form, title=title)
-
-
 
 
 # Fetch category and author details in your article_list function
@@ -206,3 +205,94 @@ def delete_article(article_id):
         # Redirect the user to a relevant page
         return redirect(url_for('article.article_list'))
     return render_template('admin/articles/delete_article.html', title=title)
+
+
+@article.route('/create_subheading', methods=['GET', 'POST'])
+def create_subheading():
+    title = 'Create Sub-Heading'
+    form = SubheadingForm()
+    if form.validate_on_submit():
+        existing_subheading = Subheading.query.filter_by(sub_title=form.sub_title.data).first()
+        if existing_subheading:
+            flash('Subheading with the same title already exists!', 'danger')
+            return redirect(url_for('article.create_subheading'))
+        sub_image = form.sub_image.data  # path to subheading image
+        if sub_image.filename != '':
+            uploaded_file = secure_filename(sub_image.filename)
+            file_ext = os.path.splitext(uploaded_file)[1]
+            if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+                flash('File type not allowed. Please upload a different file type.', 'danger')
+                return redirect(url_for('article.create_subheading'))
+            file_storage_path = os.path.join(current_app.config['UPLOAD_FOLDER'], uploaded_file)
+            sub_image.save(file_storage_path)
+        else:
+            uploaded_file = None
+        subheading = Subheading(
+            sub_title=form.sub_title.data,
+            sub_content=form.sub_content.data,
+            sub_image=uploaded_file,
+            article_id=form.article_id.data)
+        db.session.add(subheading)
+        db.session.commit()
+        flash('Your sub heading was uploaded successfully', 'success')
+        return redirect(url_for('article.subheading_list'))
+    return render_template('admin/subheading/edit_subheading.html',
+                           title=title, form=form)
+
+
+@article.route('/subheading_list')
+def subheading_list():
+    title = 'Subheadings List'
+    subheadings = Subheading.query.join(Article).order_by(Subheading.id.desc()).all()
+    return render_template('admin/subheading/subheading_list.html',
+                           title=title, subheadings=subheadings)
+
+
+@article.route('/update_subheading/<int:id>', methods=['GET', 'POST'])
+def update_subheading(id):
+    title = 'Edit subheading'
+    subheading = Subheading.query.get_or_404(id)
+    form = SubheadingForm(obj=subheading)
+    if form.validate_on_submit():
+        sub_image = form.sub_image.data
+        if sub_image.filename != '':
+            uploaded_file = secure_filename(sub_image.filename)
+            file_ext = os.path.splitext(sub_image.filename)[1]
+            if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+                flash('File type not allowed. Allowed file types are .jpg, .png, .gif, and .jpeg.',
+                      'danger')
+
+                return redirect(url_for('article.update_subheading', id=subheading.id))
+            sub_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], uploaded_file))
+        else:
+            uploaded_file = None
+        # If editing existing subheading, update its details
+        subheading.sub_title = form.sub_title.data
+        subheading.sub_content = form.sub_content.data
+        if uploaded_file:
+            subheading.sub_image = uploaded_file
+        subheading.article_id = form.article_id.data
+        db.session.commit()
+        flash("Subtopic was updated successfully!", 'success')
+        return (redirect(url_for('article.subheading_list')))
+    return render_template('admin/subheading/edit_subheading.html',
+                           title=title, form=form)
+
+
+@article.route('/delete_subheading/<int:id>', methods=['GET', 'POST'])
+def delete_subheading(id):
+    title = 'Delete Subheading'
+    subheading = Subheading.query.get_or_404(id)
+    if request.method == 'POST':
+        # CHECK IF THE SUBHEADING HAS A IMAGE
+        if subheading.sub_image:
+            image_filename = secure_filename(subheading.sub_image)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename)
+            if os.path.exists(image_path):
+                os.remove(image_path)
+        db.session.delete(subheading)
+        db.session.commit()
+        flash("Subtopic has been deleted successfully!", "success")
+        # Redirect the user to a relevant page
+        return redirect(url_for('article.subheading_list'))
+    return render_template('admin/subheading/delete_subheading.html', title=title)
