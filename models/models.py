@@ -55,6 +55,9 @@ class Article(db.Model):
     main_image = db.Column(db.String(100), nullable=True)  # Path to main image
     subheadings = db.relationship('Subheading', backref='article', lazy=True)
 
+    # Define the relationship with Category
+    category = db.relationship('Category', backref='articles')
+
     def __repr__(self):
         return '<Article {}>'.format(self.main_title)
 
@@ -71,6 +74,7 @@ class Subheading(db.Model):
     sub_image = db.Column(db.String(100))  # Path to subheading image
     article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
     third_level_subheadings = db.relationship('ThirdLevelSubheading', backref='subheading', lazy=True)
+
 
     def __repr__(self):
         return '<Subheading {}>'.format(self.sub_title)
