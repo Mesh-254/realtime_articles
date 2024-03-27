@@ -1,10 +1,10 @@
 import os
 from flask import *
-from flask_login import login_required, current_user
+from flask_login import login_required
 from werkzeug.utils import secure_filename
 
-from forms import CategoryForm, ArticleForm, SubheadingForm
-from models.models import Category, Article, User, Subheading
+from forms import CategoryForm, ArticleForm, SubheadingForm, ThirdLevelSubheadingForm
+from models.models import Category, Article, User, Subheading, ThirdLevelSubheading
 from models.database import db
 
 article = Blueprint('article', __name__)
@@ -208,6 +208,7 @@ def delete_article(article_id):
 
 
 @article.route('/create_subheading', methods=['GET', 'POST'])
+@login_required
 def create_subheading():
     title = 'Create Sub-Heading'
     form = SubheadingForm()
@@ -241,6 +242,7 @@ def create_subheading():
 
 
 @article.route('/subheading_list')
+@login_required
 def subheading_list():
     title = 'Subheadings List'
     subheadings = Subheading.query.join(Article).order_by(Subheading.id.desc()).all()
@@ -249,6 +251,7 @@ def subheading_list():
 
 
 @article.route('/update_subheading/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update_subheading(id):
     title = 'Edit subheading'
     subheading = Subheading.query.get_or_404(id)
@@ -280,6 +283,7 @@ def update_subheading(id):
 
 
 @article.route('/delete_subheading/<int:id>', methods=['GET', 'POST'])
+@login_required
 def delete_subheading(id):
     title = 'Delete Subheading'
     subheading = Subheading.query.get_or_404(id)
@@ -296,3 +300,47 @@ def delete_subheading(id):
         # Redirect the user to a relevant page
         return redirect(url_for('article.subheading_list'))
     return render_template('admin/subheading/delete_subheading.html', title=title)
+
+
+@article.route('/create_thirdlevelsubheading', methods=['GET', 'POST'])
+@login_required
+def create_thirdlevelsubheading():
+    title = ' Create Third Level Subheading'
+    form = ThirdLevelSubheadingForm()
+    if form.validate_on_submit():
+        existing_subheading = ThirdLevelSubheading.query.filter_by(sub_title=form.sub_title.data).first()
+        if existing_subheading:
+            flash('Subheading with the same title already exists!', 'danger')
+            return redirect(url_for('article.create_thirdlevelsubheading'))
+
+        sub_image = form.sub_image.data
+        if sub_image.filename != '':
+            uploaded_file = secure_filename(sub_image.filename)
+            file_ext = os.path.splitext(uploaded_file)[1]
+            if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+                flash('File type not allowed. Please upload a different file type.', 'danger')
+                return redirect(url_for('article.create_thirdlevelsubheading'))
+            sub_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], uploaded_file))
+        else:
+            uploaded_file = None
+        thirdlevelsubheading = ThirdLevelSubheading(
+            sub_title=form.sub_title.data,
+            sub_content=form.sub_content.data,
+            sub_image=uploaded_file,
+            subheading_id=form.subheading_id.data
+        )
+        db.session.add(thirdlevelsubheading)
+        db.session.commit()
+        flash('Your sub Third Level Subheading was uploaded successfully', 'success')
+        return redirect(url_for('article.thirdlevelsubheading_list'))
+    return render_template('admin/thirdlevelsubheading/edit_thirdlevelsubheading.html',
+                           title=title, form=form)
+
+
+@article.route('/thirdlevelsubheading_list')
+def thirdlevelsubheading_list():
+    title = 'Third Level Subheading List'
+    subheadings = ThirdLevelSubheading.query.join(Subheading).order_by(ThirdLevelSubheading.id.desc()).all()
+    return render_template('admin/thirdlevelsubheading/thirdlevelsubheading_list.html',
+                           title=title, subheadings=subheadings)
+
