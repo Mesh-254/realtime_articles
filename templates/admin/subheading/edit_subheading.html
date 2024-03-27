@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+
+    <div class="row" style="color: #4e4e4e; font-style: 'Poppins'; font-size: 1.8rem; ">
+        <div class="col-md-12" style=" border-bottom: 1px solid white;">{{ title }}</div>
+    </div>
+
+    <br>
+
+    <div style="width: 95%;"> <!-- Set form width to 70% and center it -->
+        <form method="post" action="" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.sub_title.label(class="form-control-label") }}
+                {{ form.sub_title(class="form-control") }}
+                {% if form.sub_title.errors %}
+                    <ul class="errors">
+                        {% for error in form.sub_title.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.sub_content.label(class="form-control-label") }}
+                {{ form.sub_content(class="form-control") }}
+                {% if form.sub_content.errors %}
+                    <ul class="errors">
+                        {% for error in form.sub_content.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.sub_image.label(class="form-control-label") }}
+                {{ form.sub_image(class="form-control") }}
+                {% if form.sub_image.errors %}
+                    <ul class="errors">
+                        {% for error in form.sub_image.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.article_id.label(class="form-control-label") }}
+                {{ form.article_id(class="form-control") }}
+                {% if form.article_id.errors %}
+                    <ul class="errors">
+                        {% for error in form.article_id.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <br>
+            <hr>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-success btn-sm" style="margin-right: 10px; width: 100px">Save
+                </button>
+                <button type="reset" class="btn btn-info btn-sm" style="margin-right: 10px;  width: 100px">Reset
+                </button>
+                <a href="{{url_for('article.subheading_list')}}" class="btn btn-danger btn-sm" style="margin-right: 10px;  width: 100px">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
