@@ -73,8 +73,8 @@
                 </ul>
             </li>
             <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Article Subheadings</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
+                <a href="#SubheadingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Article Subheadings</a>
+                <ul class="collapse list-unstyled" id="SubheadingSubmenu">
                     <li>
                         <a href="{{url_for('article.create_subheading')}}">Create Subheading</a>
                     </li>
@@ -84,7 +84,15 @@
                 </ul>
             </li>
             <li>
-                <a href="#">Portfolio</a>
+                <a href="#ThirdlevelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">ThirdLevel Subheading</a>
+                <ul class="collapse list-unstyled" id="ThirdlevelSubmenu">
+                    <li>
+                        <a href="{{url_for('article.create_thirdlevelsubheading')}}">Create Third Level Subheading</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('article.thirdlevelsubheading_list')}}">Third Level Subheading List</a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a href="#">Contact</a>
