@@ -344,3 +344,49 @@ def thirdlevelsubheading_list():
     return render_template('admin/thirdlevelsubheading/thirdlevelsubheading_list.html',
                            title=title, subheadings=subheadings)
 
+
+@article.route('/update_thirdlevelsubheading/<int:id>', methods=['GET', 'POST'])
+def update_thirdlevelsubheading(id):
+    title = "Update Third Level Heading"
+    query = ThirdLevelSubheading.query.get_or_404(id)
+    form = ThirdLevelSubheadingForm(obj=query)
+    if form.validate_on_submit():
+        sub_image = form.sub_image.data
+        if sub_image.filename != '':
+            uploaded_file = secure_filename(sub_image.filename)
+            file_ext = os.path.splitext(uploaded_file)[1]
+            if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+                flash('File type not allowed. Please upload a different file type.', 'danger')
+                return redirect(url_for('article.update_thirdlevelsubheading'))
+            sub_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], uploaded_file))
+        else:
+            uploaded_file = None
+        query.sub_title = form.sub_title.data
+        query.sub_content = form.sub_content.data
+        query.sub_image = uploaded_file
+        query.subheading_id = form.subheading_id.data
+
+        db.session.commit()
+        flash('Your sub Third Level Subheading was updated successfully', 'success')
+        return redirect(url_for('article.thirdlevelsubheading_list'))
+    return render_template('admin/thirdlevelsubheading/edit_thirdlevelsubheading.html',
+                           title=title, form=form)
+
+
+@article.route('/delete_thirdlevelsubheading/<int:id>', methods=['GET', 'POST'])
+def delete_thirdlevelsubheading(id):
+    title = "Delete Third Level Heading"
+    subheading = ThirdLevelSubheading.query.get_or_404(id)
+    if request.method == 'POST':
+        if subheading.sub_image:
+            image_filename = secure_filename(subheading.sub_image)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename)
+            if os.path.exists(image_path):
+                os.remove(image_path)
+        db.session.delete(subheading)
+        db.session.commit()
+        flash("Third Level Subheading has been deleted successfully!", "success")
+        # Redirect the user to a relevant page
+        return redirect(url_for('article.thirdlevelsubheading_list'))
+    return render_template('admin/thirdlevelsubheading/delete_thirdlevelsubheading.html',
+                           title=title)
