@@ -106,20 +106,20 @@
                         <article>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="#">
+                                    <a href="{{ url_for('home.article_details', id = article.id) }}">
                                         <img class="img-responsive" src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}" alt="Image">
                                     </a>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="post-tittle left">
-                                        <a href="#." class="tittle">{{ article.main_title }}</a>
+                                        <a href="{{ url_for('home.article_details', id = article.id) }}" class="tittle">{{ article.main_title }}</a>
                                         <span><i class="primary-color fas fa-user"></i> by {{ article.author_id.username }}</span>
                                         <span><i class="primary-color fas fa-calendar"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
                                         <span><i class="primary-color fas fa-tag"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
                                     </div>
                                     <div class="text-left">
                                         <p class="truncate-text">{{ article.main_content }}</p>
-                                        <a href="#." class="red-more">READ MORE</a>
+                                        <a href="{{ url_for('home.article_details', id = article.id) }}" class="red-more">READ MORE</a>
                                     </div>
                                     <hr>
                                 </div>
