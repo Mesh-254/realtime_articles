@@ -6,21 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-     <title> {% block title %} Admin Section {% endblock title %}  </title>
+    <title> {% block title %} Admin Section {% endblock title %}  </title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+</head>
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+      integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<!-- Our Custom CSS -->
+<link rel="stylesheet" href="/static/css/admin_css/style.css">
 
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="/static/css/admin_css/style.css">
-
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
-            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
-            crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
-            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-            crossorigin="anonymous"></script>
+<!-- Font Awesome JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+        integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+        crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -60,8 +64,9 @@
                     </li>
                 </ul>
             </li>
-                 <li>
-                <a href="#ArticleSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Articles</a>
+            <li>
+                <a href="#ArticleSubmenu" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">Articles</a>
                 <ul class="collapse list-unstyled" id="ArticleSubmenu">
                     <li>
                         <a href="{{ url_for('article.create_article') }}">Create Article</a>
@@ -73,24 +78,26 @@
                 </ul>
             </li>
             <li>
-                <a href="#SubheadingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Article Subheadings</a>
+                <a href="#SubheadingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Article
+                    Subheadings</a>
                 <ul class="collapse list-unstyled" id="SubheadingSubmenu">
                     <li>
-                        <a href="{{url_for('article.create_subheading')}}">Create Subheading</a>
+                        <a href="{{ url_for('article.create_subheading') }}">Create Subheading</a>
                     </li>
                     <li>
-                        <a href="{{url_for('article.subheading_list')}}">Subheading List</a>
+                        <a href="{{ url_for('article.subheading_list') }}">Subheading List</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#ThirdlevelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">ThirdLevel Subheading</a>
+                <a href="#ThirdlevelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">ThirdLevel
+                    Subheading</a>
                 <ul class="collapse list-unstyled" id="ThirdlevelSubmenu">
                     <li>
-                        <a href="{{url_for('article.create_thirdlevelsubheading')}}">Create Third Level Subheading</a>
+                        <a href="{{ url_for('article.create_thirdlevelsubheading') }}">Create Third Level Subheading</a>
                     </li>
                     <li>
-                        <a href="{{url_for('article.thirdlevelsubheading_list')}}">Third Level Subheading List</a>
+                        <a href="{{ url_for('article.thirdlevelsubheading_list') }}">Third Level Subheading List</a>
                     </li>
                 </ul>
             </li>
@@ -187,6 +194,29 @@
         });
     });
 </script>
+
+<!-- Include Summernote JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+<!-- Initialize Summernote for main title textarea -->
+<script>
+    $(document).ready(function () {
+        $('#main-title').summernote({
+            placeholder: 'Enter your text here...',
+            height: 150, // Adjust the height as needed
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['misc', ['fullscreen', 'codeview']]
+            ]
+        });
+    });
+</script>
+
 </body>
 
 </html>

@@ -37,7 +37,12 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <style>
+         .text {
+            white-space: pre-line; /* Preserve newline characters */
+            margin: 20px 0; /* Add margin between paragraphs */
+        }
+    </style>
 </head>
 <body>
 
@@ -95,11 +100,11 @@
                                                 class="primary-color icon-tag"></i> Furniture</span></div>
                                     <!-- Post Content -->
                                     <div class="text-left">
-                                        <p>{{ article.main_content }}</p>
+                                        <p class="text">{{ article.main_content|safe }}</p>
 
                                         {% for subheading in subheadings %}
                                             <h5 class="margin-top-80 margin-bottom-30">{{ subheading.sub_title }}</h5>
-                                            <p>{{ subheading.sub_content }}</p>
+                                            <p  class="text">{{ subheading.sub_content|safe }}</p>
                                             <!-- Post Img -->
                                             {% if subheading.sub_image %}
                                                 <img class="img-responsive margin-top-50 margin-bottom-50"
