@@ -4,6 +4,10 @@ from models.models import Article, Subheading, ThirdLevelSubheading
 home = Blueprint('home', __name__)
 
 
+@home.route('/uploads/<filename>')
+def get_uploaded_image(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
+
 @home.route('/')
 @home.route('/index')
 def index():
@@ -26,6 +30,3 @@ def article_details(id):
                            article=article, subheadings=subheadings, third_level_subheadings=third_level_subheadings)
 
 
-@home.route('/uploads/<filename>')
-def get_uploaded_image(filename):
-    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
