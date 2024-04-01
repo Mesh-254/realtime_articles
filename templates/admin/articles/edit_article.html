@@ -17,7 +17,7 @@
 
             <div class="form-group">
                 {{ form.main_title.label(class="form-control-label") }}
-                {{ form.main_title(class="form-control") }}
+                {{ form.main_title(class="form-control",  id="main-title") }}
                 {% if form.main_title.errors %}
                     <ul class="errors">
                         {% for error in form.main_title.errors %}
@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 {{ form.main_content.label(class="form-control-label") }}
-                {{ form.main_content(class="form-control") }}
+                {{ form.main_content(class="form-control",  id="main-content") }}
                 {% if form.main_content.errors %}
                     <ul class="errors">
                         {% for error in form.main_content.errors %}
