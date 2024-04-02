@@ -3,7 +3,6 @@
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
-
     <div class="row" style="color: #4e4e4e; font-style: 'Poppins'; font-size: 1.8rem; ">
         <div class="col-md-12" style=" border-bottom: 1px solid white;">{{ title }}</div>
     </div>
@@ -86,5 +85,7 @@
                 <a href="{{ url_for('article.article_list') }}" class="btn btn-danger btn-sm" style="margin-right: 10px;  width: 100px">Cancel</a>
             </div>
         </form>
+     {{ ckeditor.load() }}
+ {{ ckeditor.config(name='main_content') }}
     </div>
 {% endblock content %}
