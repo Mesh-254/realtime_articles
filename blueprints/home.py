@@ -13,6 +13,11 @@ def get_uploaded_image(filename):
 def index():
     title = 'Realtime Articles'
     articles = Article.query.order_by(Article.date_published.desc()).all()
+    # Truncate main content of each article to 50 words
+    for article in articles:
+        words = article.main_content.split()  # Split content into words
+        if len(words) > 50:
+            article.main_content = ' '.join(words[:50]) + '...'  # Join first 50 words
     return render_template('home/blog_list.html', articles=articles, title=title)
 
 
