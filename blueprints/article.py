@@ -98,6 +98,10 @@ def delete_category(id):
 def create_article():
     title = 'Create Article / Blog'
     form = ArticleForm()
+    print(form.main_title.data)
+    if request.method == 'POST':
+        print(request.form.get('main-title'))
+        print(form.main_title.data)
     if form.validate_on_submit():
         # Check if an article with the same title already exists
         existing_article = Article.query.filter_by(main_title=form.main_title.data).first()
@@ -125,6 +129,8 @@ def create_article():
             main_image=uploaded_file,
             author_id=form.author_id.data
         )
+        print('my article')
+        print(new_article)
         # Add the new article to the database session and commit changes
         db.session.add(new_article)
         db.session.commit()
@@ -146,6 +152,11 @@ def article_list():
         author = User.query.get(article.author_id)
         article.category_name = category.name if category else 'N/A'
         article.author_name = author.username if author else 'N/A'
+
+        # Truncate main content of each article to 50 words
+        words = article.main_content.split()  # Split content into words
+        if len(words) > 50:
+            article.main_content = ' '.join(words[:50]) + '...'  # Join first 50 words
 
     return render_template('admin/articles/article_list.html', title=title,
                            articles=articles)
