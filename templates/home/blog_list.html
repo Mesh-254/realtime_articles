@@ -126,7 +126,7 @@
                                                         class="primary-color fas fa-tag"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
                                             </div>
                                             <div class="text-left">
-                                                <p class="truncate-text">{{ article.main_content }}</p>
+                                                <p class="truncate-text">{{ article.main_content|safe }}</p>
                                                 <a href="{{ url_for('home.article_details', id = article.id) }}"
                                                    class="red-more">READ MORE</a>
                                             </div>
@@ -212,18 +212,18 @@
         });
     });
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var maxWords = 50;
-        var paragraphs = document.querySelectorAll('.truncate-text');
-        paragraphs.forEach(function (paragraph) {
-            var words = paragraph.textContent.split(' ');
-            if (words.length > maxWords) {
-                paragraph.textContent = words.slice(0, maxWords).join(' ') + '.....';
-            }
-        });
-    });
-</script>
+{#<script>#}
+{#    document.addEventListener('DOMContentLoaded', function () {#}
+{#        var maxWords = 50;#}
+{#        var paragraphs = document.querySelectorAll('.truncate-text');#}
+{#        paragraphs.forEach(function (paragraph) {#}
+{#            var words = paragraph.innerHTML.split(' ');#}
+{#            if (words.length > maxWords) {#}
+{#                paragraph.innerHTML= words.slice(0, maxWords).join(' ') + '.....';#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#</script>#}
 
 </body>
 
