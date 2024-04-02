@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, TextAreaField, SelectField, FileField
 from wtforms.validators import DataRequired, Length
 from models.models import User, Category, Article,Subheading
+from flask_ckeditor import CKEditorField
 
 
 class UserLoginForm(FlaskForm):
@@ -17,7 +18,7 @@ class CategoryForm(FlaskForm):
 
 class ArticleForm(FlaskForm):
     main_title = StringField('Main Title', validators=[DataRequired()])
-    main_content = TextAreaField('Main Content', render_kw={"rows": 10})
+    main_content = CKEditorField('Main Content', render_kw={"rows": 10})
     author_id = SelectField('Author', coerce=int, validators=[DataRequired()])
     category_id = SelectField('Category', coerce=int, validators=[DataRequired()])
     main_image = FileField('Main Image', render_kw={"class": "form-control"})
