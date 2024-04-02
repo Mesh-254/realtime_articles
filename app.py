@@ -14,7 +14,14 @@ from blueprints.user import user
 from blueprints.article import article
 from blueprints.home import home
 
+from flask_ckeditor import CKEditor
+
+
 app = Flask(__name__, static_url_path='/static')
+
+# initialization of CKEDITOR
+ckeditor = CKEditor(app)
+
 
 app.url_map.strict_slashes = False
 
