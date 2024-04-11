@@ -53,44 +53,10 @@ class Article(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     main_image = db.Column(db.String(100), nullable=True)  # Path to main image
-    subheadings = db.relationship('Subheading', backref='article', lazy=True)
+
 
     # Define the relationship with Category
     category = db.relationship('Category', backref='articles')
 
     def __repr__(self):
         return '<Article {}>'.format(self.main_title)
-
-
-class Subheading(db.Model):
-    """
-    Represents subheadings of main articles.
-    """
-    __tablename__ = 'subheading'
-
-    id = db.Column(db.Integer, primary_key=True)
-    sub_title = db.Column(db.String(100), nullable=True)
-    sub_content = db.Column(db.Text, nullable=True)
-    sub_image = db.Column(db.String(100))  # Path to subheading image
-    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
-    third_level_subheadings = db.relationship('ThirdLevelSubheading', backref='subheading', lazy=True)
-
-
-    def __repr__(self):
-        return '<Subheading {}>'.format(self.sub_title)
-
-
-class ThirdLevelSubheading(db.Model):
-    """
-    Represents third-level subheadings.
-    """
-    __tablename__ = 'third_level_subheading'
-
-    id = db.Column(db.Integer, primary_key=True)
-    sub_title = db.Column(db.String(100), nullable=True)
-    sub_content = db.Column(db.Text, nullable=True)
-    sub_image = db.Column(db.String(100))  # Path to third level subheading image
-    subheading_id = db.Column(db.Integer, db.ForeignKey('subheading.id'), nullable=False)
-
-    def __repr__(self):
-        return '<ThirdLevelSubheading {}>'.format(self.sub_title)
