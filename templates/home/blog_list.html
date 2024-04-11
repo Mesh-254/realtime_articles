@@ -106,14 +106,15 @@
                                 <article>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <a href="{{ url_for('home.article_details', id = article.id) }}">
+                                            <a href="{{ url_for('home.article_details', id=article.id) }}">
                                                 {% if article.main_image %}
                                                     <img class="img-responsive"
                                                          src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}"
-                                                         alt="Image">
+                                                         alt="Main Image">
                                                 {% endif %}
                                             </a>
                                         </div>
+
                                         <div class="col-md-12">
                                             <div class="post-tittle left">
                                                 <a href="{{ url_for('home.article_details', id = article.id) }}"
