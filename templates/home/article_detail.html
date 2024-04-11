@@ -30,6 +30,8 @@
     <!-- Online Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700,900|Poppins:300,400,500,600,700|Montserrat:300,400,500,600,700,800"
           rel="stylesheet">
+    <!-- Online Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,7 +40,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-         .text {
+        .text {
             white-space: pre-line; /* Preserve newline characters */
             margin: 20px 0; /* Add margin between paragraphs */
         }
@@ -65,7 +67,7 @@
                 <div class="container">
                     <h4>RealtimeArticles Blog Details </h4>
                     <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
+                        <li><a href="{{ url_for('home.index') }}">Home</a></li>
                         <li><a href="#">Blog</a></li>
                     </ol>
                 </div>
@@ -81,88 +83,63 @@
 
                         <!-- Article -->
                         {% if article %}
-                                <article>
-                                    <!-- Post Img -->
+                            <article>
+
+                                <!-- Tittle -->
+                                <div class="post-tittle left"><a href="#."
+                                                                 class="tittle">{{ article.main_title }}</a>
+                                    <!-- Post Info -->
+                                    <span><i class="primary-color fas fa-user"></i> by admin</span>
+                                    <span><i class="primary-color fas fa-calendar"></i> April 27, 2016</span>
+                                    <span><i class="primary-color fas fa-comment"></i> 05</span>
+                                    <span><i class="primary-color fas fa-tag"></i> Furniture</span>
 
                                     {% if article.main_image %}
                                         <img class="img-responsive-1"
                                              src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}"
                                              alt="Image">
                                     {% endif %}
+                                </div>
+                                <!-- Post Content -->
+                                <div class="text-left">
+                                    {{ article.main_content|safe }}
+                                    <!-- Tags -->
+                                    <div class="row margin-top-50">
 
-                                    <!-- Tittle -->
-                                    <div class="post-tittle left"><a href="#."
-                                                                     class="tittle">{{ article.main_title }}</a>
-                                        <!-- Post Info -->
-                                        <span><i class="primary-color icon-user"></i> by admin</span> <span><i
-                                                class="primary-color icon-calendar"></i> April 27, 2016</span> <span><i
-                                                class="primary-color icon-bubble"></i> 05</span> <span><i
-                                                class="primary-color icon-tag"></i> Furniture</span></div>
-                                    <!-- Post Content -->
-                                    <div class="text-left">
-                                        <p class="text">{{ article.main_content|safe }}</p>
-
-                                        {% for subheading in subheadings %}
-                                            <h5 class="margin-top-80 margin-bottom-30">{{ subheading.sub_title }}</h5>
-                                            <p  class="text">{{ subheading.sub_content|safe }}</p>
-                                            <!-- Post Img -->
-                                            {% if subheading.sub_image %}
-                                                <img class="img-responsive margin-top-50 margin-bottom-50"
-                                                     src="{{ url_for('static', filename='uploads/' + subheading.sub_image) }}"
-                                                     alt="{{ subheading.sub_image }}">
-                                            {% endif %}
-                                            <p></p>
-                                        {% endfor %}
-                                        <!-- LIST STYLE -->
-                                        <ul class="list-group margin-top-30 margin-top-20">
-                                            {% for third_level_subheading in third_level_subheadings %}
-                                                <li>
-                                                    {{ third_level_subheading.title }}
-                                                    {% if third_level_subheading.sub_image %}
-                                                        <img src="{{ url_for('static', filename='uploads/' + third_level_subheading.sub_image) }}"
-                                                             alt="{{ third_level_subheading.sub_image }}">
-                                                    {% endif %}
+                                        <!-- Share With -->
+                                        <div class="col-md-5">
+                                            <h5 class="shop-tittle">share with</h5>
+                                            <ul class="share-post padding-left-15">
+                                                <li><a href="#."><i class="primary-color fab fa-facebook"></i> Facebook</a>
                                                 </li>
-                                            {% endfor %}
+                                                <li><a href="#."><i class="primary-color fab fa-twitter"></i>
+                                                    Twitter</a></li>
+                                            </ul>
 
-                                        </ul>
-
-                                        <!-- Tags -->
-                                        <div class="row margin-top-50">
-
-                                            <!-- Share With -->
-                                            <div class="col-md-5">
-                                                <h5 class="shop-tittle">share with</h5>
-                                                <ul class="share-post padding-left-15">
-                                                    <li><a href="#."><i class="icon-social-facebook"></i> Facebook</a>
-                                                    </li>
-                                                    <li><a href="#."><i class="icon-social-twitter"></i> twitter</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <!-- ADMIN info -->
-                                        <div class="admin-info">
-                                            <div class="media-left">
-                                                <div class="admin-pic"><img src="images/admin-avatar.jpg" alt=""></div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6>Meshack S. <span>Co-Founder</span></h6>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. NullamMorbi
-                                                    ac
-                                                    scelerisque mauris. Etiam sodales a nulla ornare viverra. Nunc at
-                                                    blandit
-                                                    neque, bociis natoque penatcing e scelerisque miscing elit. </p>
-                                                <div class="admin-social"><a href="#."><i
-                                                        class="icon-social-facebook"></i></a>
-                                                    <a href="#."><i class="icon-social-twitter"></i></a> <a href="#."><i
-                                                            class="icon-social-dribbble"></i></a> <a href="#."><i
-                                                            class="icon-envelope"></i></a></div>
-                                            </div>
                                         </div>
                                     </div>
-                                </article>
+
+                                    <!-- ADMIN info -->
+                                    <div class="admin-info">
+                                        <div class="media-left">
+                                            <div class="admin-pic"><img src="images/admin-avatar.jpg" alt=""></div>
+                                        </div>
+                                        <div class="media-body">
+                                            <h6>Meshack S. <span>Co-Founder</span></h6>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. NullamMorbi
+                                                ac
+                                                scelerisque mauris. Etiam sodales a nulla ornare viverra. Nunc at
+                                                blandit
+                                                neque, bociis natoque penatcing e scelerisque miscing elit. </p>
+                                            <div class="admin-social"><a href="#."><i
+                                                    class="icon-social-facebook"></i></a>
+                                                <a href="#."><i class="icon-social-twitter"></i></a> <a href="#."><i
+                                                        class="icon-social-dribbble"></i></a> <a href="#."><i
+                                                        class="icon-envelope"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
                         {% endif %}
                         <hr>
 
@@ -421,6 +398,24 @@
 <script src="{{ url_for('static', filename='/js/home_js/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ url_for('static', filename='/js/home_js/owl.carousel.min.js') }}"></script>
 <script src="{{ url_for('static', filename='/js/home_js/main.js') }}"></script>
+<script>
+    window.onload = function () {
+        // Get the first paragraph element
+        var firstParagraph = document.querySelector('.text-left p');
 
+        // Get the text content of the first paragraph
+        var text = firstParagraph.textContent;
+
+        // Get the first character of the text content
+        var firstChar = text.charAt(0);
+
+        // Wrap the first character with a span element
+        var dropCap = '<span class="drop-cap">' + firstChar + '</span>';
+
+        // Replace the first character in the paragraph with the drop cap
+        firstParagraph.innerHTML = dropCap + text.substring(1);
+    };
+
+</script>
 </body>
 </html>
