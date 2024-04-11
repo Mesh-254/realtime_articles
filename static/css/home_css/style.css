@@ -41,8 +41,8 @@ body {
     background: #fff;
     font-weight: normal;
     position: relative;
-    font-size: 14px;
-    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-family: "Ubuntu";
 }
 
 .fonts {
@@ -106,10 +106,12 @@ h6 {
 }
 
 p {
-    font-weight: 400;
-    color: #6f6f6f;
+    font-weight: 440;
+    color: #333333;
     line-height: 26px;
     text-rendering: optimizeLegibility;
+    text-align: justify;
+    line-height: 1.428571429;
 }
 
 button {
@@ -140,7 +142,7 @@ img {
 
 a {
     text-decoration: none;
-    color: #141414;
+    color: blue;
 }
 
 p.intro-small {
@@ -206,7 +208,7 @@ p.intro-small {
 
 a:hover,
 a:focus {
-    color: #ffe115;
+    color: seagreen;
 }
 
 .primary-color {
@@ -265,15 +267,19 @@ a:focus {
 
 .img-responsive {
     max-width: 100%;
-     transition: box-shadow 0.3s, opacity 0.3s;
+    transition: box-shadow 0.3s, opacity 0.3s;
 }
+
 .blog-list article:hover .img-responsive {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow */
     opacity: 0.6; /* Reduce opacity */
 }
-.blog-list .img-responsive-1{
+
+.blog-list .img-responsive-1 {
     width: 100%;
     height: 400px;
+    border-radius: 5px;
+    margin-top: 30px;
 }
 
 
@@ -999,18 +1005,20 @@ section {
 ========================================================*/
 .blog-list {
     margin-top: -30px;
+    color: black;
 }
 
- .no-padding-col {
-        margin-right: 4px; /* Counteract the negative margin applied by container */
-        margin-left: 4px; /* Counteract the negative margin applied by container */
-    }
+.no-padding-col {
+    margin-right: 4px; /* Counteract the negative margin applied by container */
+    margin-left: 4px; /* Counteract the negative margin applied by container */
+}
 
-    .no-padding-col [class^="col-"],
-    .no-padding-col [class*=" col-"] {
-        padding-right: 10px;
-        padding-left: 10px;
-    }
+.no-padding-col [class^="col-"],
+.no-padding-col [class*=" col-"] {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
 .blog-list article {
     margin-bottom: 10px;
 }
@@ -1091,9 +1099,9 @@ section {
 }
 
 .blog-list .post-tittle a.tittle {
-    font-size: 24px;
+    font-size: 34px;
     color: #2d3a4b;
-    font-weight: 500;
+    font-weight: 700;
     display: inline-block;
     width: 100%;
 }
@@ -1142,13 +1150,20 @@ section {
     margin-bottom: 10px;
 }
 
+.text-left p img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
 .blog-list article .text-left {
     margin-top: 20px; /* Space between content and "READ MORE" link */
 
 }
 
 .truncate-text {
-text-align: justify;
+    text-align: justify;
 }
 
 .blog-list .red-more {
@@ -3062,7 +3077,7 @@ input[type="number"] {
 ========================================================*/
 .sub-bnr {
     margin-top: -90px;
-    min-height: 350px;
+    min-height: 250px;
     text-align: center;
     position: relative;
     background-image: url('/static/images/home_images/jigsaw.jpg');
