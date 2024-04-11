@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Pricing Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background:whitesmoke;
+            background-size: cover;
+            background-position: center;
+        }
+        .container{
+            height: 450px;
+            padding: 20px;
+        }
+        #calculator {
+            width: 60%;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            margin-top: 90px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 30%;
+            height: 45px;
+            margin-top: 90px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator" class="container">
+        <h2>Article Pricing Calculator</h2>
+        <label for="wordCount">Number of Words:</label>
+        <input onkeyup="calculatePrice()" type="number" id="wordCount" min="0" placeholder="Enter number of words" class="form-control">
+        <button  id="price" class="btn btn-dark">Total price $0</button>
+    </div>
+
+    <script>
+        function calculatePrice() {
+            const wordCount = document.getElementById('wordCount').value;
+            const pricePer500Words = 10;
+            const totalPrice = Math.ceil(wordCount / 500) * pricePer500Words;
+            document.getElementById('price').textContent = `Total Price: $${totalPrice}`;
+        }
+    </script>
+</body>
+</html>
