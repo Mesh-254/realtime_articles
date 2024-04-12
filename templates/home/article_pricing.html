@@ -81,7 +81,7 @@
     <script>
         function calculatePrice() {
             const wordCount = document.getElementById('wordCount').value;
-            const pricePer500Words = 10;
+            const pricePer500Words = 20;
             const totalPrice = Math.ceil(wordCount / 500) * pricePer500Words;
             document.getElementById('price').textContent = `Total Price: $${totalPrice}`;
         }
