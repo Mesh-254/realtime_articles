@@ -54,6 +54,8 @@ class Article(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     main_image = db.Column(db.String(100), nullable=True)  # Path to main image
 
+    # Define the relationship with User
+    author = db.relationship('User', backref='articles')
 
     # Define the relationship with Category
     category = db.relationship('Category', backref='articles')
