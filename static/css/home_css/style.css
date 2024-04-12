@@ -1031,6 +1031,27 @@ section {
     margin: 0 auto;
 }
 
+/*YOU MAY LIKE SECTION */
+.you-may-like-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center; /* Align items horizontally */
+    padding: 30px;
+}
+
+.alos-like {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Space between articles */
+}
+
+.article-item {
+    width: calc(50% - 15px); /* Each article spans half the container width with margin adjustment */
+    margin-bottom: 30px; /* Adjust margin between rows */
+}
+
+
 .blog-list article .media-left {
     float: left;
     position: relative;
@@ -1495,6 +1516,10 @@ section {
     left: 0px;
     top: 9px;
     border-radius: 50%;
+}
+
+.shop-cate li {
+    list-style: none;
 }
 
 .shop-cate a {
