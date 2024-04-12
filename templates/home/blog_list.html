@@ -120,11 +120,11 @@
                                                 <a href="{{ url_for('home.article_details', id = article.id) }}"
                                                    class="tittle">{{ article.main_title }}</a>
                                                 <span><i
-                                                        class="primary-color fas fa-user"></i> by {{ article.author_id.username }}</span>
+                                                        class="primary-color fas fa-user"></i> by {{ article.author.username }}</span>
                                                 <span><i
                                                         class="primary-color fas fa-calendar"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
                                                 <span><i
-                                                        class="primary-color fas fa-tag"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
+                                                        class="primary-color fas fa-tag"></i> {{ article.category.name }}</span>
                                             </div>
                                             <div class="text-left">
                                                 <p class="truncate-text">{{ article.main_content|safe }}</p>
