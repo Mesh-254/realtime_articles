@@ -1032,14 +1032,6 @@ section {
 }
 
 /*YOU MAY LIKE SECTION */
-.you-may-like-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center; /* Align items horizontally */
-    padding: 30px;
-}
-
 .alos-like {
     display: flex;
     flex-wrap: wrap;
