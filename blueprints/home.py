@@ -63,9 +63,13 @@ def article_details(id):
         .order_by(Category.id) \
         .all()
     recent_posts = Article.query.order_by(Article.date_published.desc()).limit(4).all()
+
+    # Query to fetch similar posts belong to the same category
+    similar_posts = Article.query.filter_by(category=article.category).filter(Article.id != article.id).order_by(Article.date_published.desc()).limit(3).all()
+
     return render_template('home/article_detail.html',
                            article=article, category_blog_count=category_blog_count,
-                           recent_posts=recent_posts)
+                           recent_posts=recent_posts, similar_posts=similar_posts)
 
 
 # Route to display the article pricing page
