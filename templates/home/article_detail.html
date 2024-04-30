@@ -22,6 +22,11 @@
     <link href="/static/css/home_css/responsive.css" rel="stylesheet">
     <link href="/static/css/home_css/flaticon.css" rel="stylesheet">
 
+    <!-- FAVICON-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/static/images/favicon/site.webmanifest">
 
     <!-- JavaScripts -->
     <script src="{{ url_for('static', filename='js/home_js/modernizr.js') }}"></script>
@@ -201,30 +206,33 @@
                                     {% for post in similar_posts %}
                                         <div class="row">
                                         <div class="col-sm-5">
-                                            {% if post.main_image %}
-                                                <img class="img-responsive-1"
-                                                     src="{{ url_for('home.get_uploaded_image', filename=post.main_image) }}"
-                                                     alt="Image">
-                                            {% else %}
-                                                <p>image</p>
-                                            {% endif %}
-                                            <div class="col-sm-12">
-                                                <!-- Tittle -->
-                                                <div class="post-tittle left"><a href="#." class="tittle">{{ post.main_title }}</a>
-                                                    <!-- Post Info -->
-                                                    <span><i class="primary-color icon-user"></i> by admin</span> <span><i
-                                                            class="primary-color icon-calendar"></i> April 27, 2016</span>
-                                                    <span><i class="primary-color icon-bubble"></i> 05</span> <span><i
-                                                            class="primary-color icon-tag"></i> Furniture</span></div>
-                                                <!-- Post Content -->
-                                                <div class="text-left">
-                                                    <p> {{post.main_content | safe}}</p>
-                                                    <a href="{{ url_for('home.article_details', id = post.id) }}"
+                                        {% if post.main_image %}
+                                            <img class="img-responsive-1"
+                                                 src="{{ url_for('home.get_uploaded_image', filename=post.main_image) }}"
+                                                 alt="Image">
+                                        {% else %}
+                                            <p>image</p>
+                                        {% endif %}
+                                        <div class="col-sm-12">
+                                            <!-- Tittle -->
+                                            <div class="post-tittle left"><a href="#."
+                                                                             class="tittle">{{ post.main_title }}</a>
+                                                <!-- Post Info -->
+                                                <span><i class="primary-color icon-user"></i> by admin</span> <span><i
+                                                        class="primary-color icon-calendar"></i> April 27, 2016</span>
+                                                <span><i class="primary-color icon-bubble"></i> 05</span> <span><i
+                                                        class="primary-color icon-tag"></i> Furniture</span></div>
+                                            <!-- Post Content -->
+                                            <div class="text-left">
+                                                <p> {{ post.main_content | safe }}</p>
+                                                <a href="{{ url_for('home.article_details', id = post.id) }}"
                                                    class="red-more"> READ MORE </a>
                                             </div>
                                         </div>
                                     {% endfor %}
                                 </article>
+                            {% else %}
+                                <P>No related articles!</P>
                             {% endif %}
 
                         </div>
