@@ -11,6 +11,7 @@ from models.database import db
 from flask_login import LoginManager, login_required, current_user
 
 from blueprints.user import user
+from blueprints.category import category
 from blueprints.article import article
 from blueprints.home import home
 
@@ -24,8 +25,8 @@ ckeditor = CKEditor(app)
 
 
 app.url_map.strict_slashes = False
-
 app.register_blueprint(home, url_prefix='/')
+app.register_blueprint(category, url_prefix='/')
 app.register_blueprint(user, url_prefix='/')
 app.register_blueprint(article, url_prefix='/')
 
