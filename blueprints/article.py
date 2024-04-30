@@ -24,15 +24,31 @@ def create_category():
     title = "Create new Category"
     form = CategoryForm()
     if form.validate_on_submit():
+        image = form.image.data
+        if not image:
+            flash("No image selected!", 'danger')
+            return None
+
+        uploaded_file = secure_filename(image.filename)
+        file_ext = os.path.splitext(uploaded_file)[1]
+        if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+            flash('Allowed file types .jpg, .png, .gif, .jpeg,', 'danger')
+            return None
+        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], uploaded_file)
+        image.save(image_path)
+
         category_name = (Category.query.
                          filter(Category.name == form.name.data).first())
         if category_name:
             flash("Category with similar name already exists!", 'danger')
             return redirect(url_for('article.category_list'))
+
         category = Category(
             name=form.name.data,
-            description=form.description.data
+            description=form.description.data,
+            image=image_path,
         )
+        print(category.image)
         db.session.add(category)
         db.session.commit()
         flash('New category has been created', 'success')
@@ -57,6 +73,18 @@ def edit_category(category_id):
     category = Category.query.get_or_404(category_id)
     form = CategoryForm(obj=category)
     if form.validate_on_submit():
+        image = form.image.data
+        if not image:
+            flash("No image selected!", 'danger')
+            return None
+        uploaded_file = secure_filename(image.filename)
+        file_ext = os.path.splitext(uploaded_file)[1]
+        if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+            flash('File type not allowed. Please upload a different file type.', 'danger')
+            return redirect(url_for('article.edit_category', category_id=category_id))
+        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], uploaded_file)
+        image.save(image_path)
+
         category_name = (Category.query
                          .filter(Category.name == form.name.data)
                          .filter(Category.id != category_id)
@@ -66,6 +94,7 @@ def edit_category(category_id):
             return redirect(url_for('article.category_list'))
         category.name = form.name.data
         category.description = form.description.data
+        category.image = image_path
         db.session.commit()
         flash('Category has been updated', 'success')
         return redirect(url_for('article.category_list'))
@@ -83,6 +112,13 @@ def delete_category(id):
         if associated_articles:
             flash("Cannot delete category. There are associated articles.", 'danger')
             return redirect(url_for('article.category_list'))
+
+            # Check if the article has an associated image and delete it from the server
+        if category.image:
+            image_filename = secure_filename(category.image)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename)
+            if os.path.exists(image_path):
+                os.remove(image_path)
 
         db.session.delete(category)
         db.session.commit()
