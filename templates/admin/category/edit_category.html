@@ -11,7 +11,7 @@
     <br>
 
     <div style="width: 70%;"> <!-- Set form width to 70% and center it -->
-        <form method="post" action="">
+        <form method="post" action="" enctype="multipart/form-data">
             {{ form.csrf_token }}
             {{ form.hidden_tag() }}
             <div class="form-group">
@@ -21,6 +21,18 @@
             <div class="form-group">
                 {{ form.description.label(class="form-control-label") }}
                 {{ form.description(class="form-control") }}
+            </div>
+
+             <div class="form-group">
+                {{ form.image.label(class="form-control-label") }}
+                {{ form.image(class="form-control") }}
+                 {% if form.image.errors %}
+                    <ul class="errors">
+                        {% for error in form.image.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             <br>
             <hr>
