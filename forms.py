@@ -14,6 +14,7 @@ class UserLoginForm(FlaskForm):
 class CategoryForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(max=50)])
     description = TextAreaField('Description', render_kw={"rows": 6})  # Set rows attribute to 4
+    image = FileField('Image', render_kw={"class": "form-control"})
 
 
 class ArticleForm(FlaskForm):
