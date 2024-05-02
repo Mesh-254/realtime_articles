@@ -154,8 +154,9 @@ Header START -->
                 <button class="modeswitch" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
                         data-bs-display="static">
                     <svg class="theme-icon-active">
-                        <use href="#"></use>
+                        <use href="bootstrap-icons/bootstrap-icons.svg#moon-fill"/>
                     </svg>
+                    <i class="bi bi-moon-fill text-dark"></i>
                 </button>
                 <!-- Dropdown items -->
                 <ul class="dropdown-menu min-w-auto dropdown-menu-end" aria-labelledby="bd-theme">
@@ -216,7 +217,7 @@ Header END -->
                         <div class="tiny-slider-inner" data-autoplay="true" data-hoverpause="true" data-gutter="0"
                              data-arrow="true" data-dots="false" data-items="1">
                             <!-- Slide 1 -->
-                            {% if query %}
+                            {% if articles %}
                                 {% for query in articles %}
                                     <div class="card card-overlay-bottom card-bg-scale h-400 h-sm-500 h-md-600 rounded-0"
                                          style="background-image:url({{ url_for('home.get_uploaded_image', filename=query.main_image) }}); background-position: center left; background-size: cover;">
