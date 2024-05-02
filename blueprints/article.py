@@ -61,7 +61,14 @@ def create_category():
 @login_required
 def category_list():
     title = 'Category List'
-    queryset = Category.query.order_by(Category.id.desc())
+    search_term = request.args.get('q', '')  # Get the search term from the query parameter
+    if search_term:
+        # Filter categories based on category name matching the search term
+        queryset = Category.query.filter(Category.name.ilike(f'%{search_term}%')).order_by(Category.id.desc()).all()
+    else:
+        # If no search term provided, fetch all categories
+        queryset = Category.query.order_by(Category.id.desc()).all()
+
     return render_template('admin/category/category_list.html',
                            queryset=queryset, title=title)
 
@@ -177,8 +184,12 @@ def save_image(image_data):
 @login_required
 def article_list():
     title = 'Article/Blog List'
-    articles = Article.query.order_by(Article.date_published.desc()).all()
-
+    search_term = request.args.get('q', '')  # Get the search term from the query parameter
+    if search_term:
+        # Filter articles based on category name matching the search term
+        articles= Article.query.filter(Article.main_title.ilike(f'%{search_term}%')).all()
+    else:
+        articles=Article.query.order_by(Article.date_published.desc()).all()
     # Fetch category and author details for each article
     for article in articles:
         category = Category.query.get(article.category_id)
