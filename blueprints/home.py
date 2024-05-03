@@ -3,6 +3,7 @@ from models.models import Article, Category
 from models.database import db
 from sqlalchemy import func
 
+
 # Create a Blueprint object for the home routes
 home = Blueprint('home', __name__)
 
@@ -22,27 +23,44 @@ def get_uploaded_image(filename):
     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
 
 
-# Route for the home page or index page
+# Route to  home page or index page
 @home.route('/')
 @home.route('/index')
 def index():
     """
-    Render the index page with a list of articles.
+        Render the index page with a list of articles.
 
-    Returns:
-        str: Rendered HTML template with a list of articles.
-    """
+        Returns:
+            str: Rendered HTML template with a list of articles.
+        """
     title = 'Realtime Articles'
-    articles = Article.query.order_by(Article.date_published.desc()).all()
+
+    search_term = request.args.get('q', '')
+
+    if search_term:
+        articles = Article.query.filter(
+            Article.main_title.ilike(f'%{search_term}%') | Article.main_content.contains(search_term)).order_by(
+            Article.date_published.desc())
+    else:
+        articles = Article.query.order_by(Article.date_published.desc())
+
+    # pagination
+    page = request.args.get('page')
+    if page and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+    pages = articles.paginate(page=page, per_page=12)
     # Truncate main content of each article to 50 words
     for article in articles:
         words = article.main_content.split()  # Split content into words
         if len(words) > 50:
             article.main_content = ' '.join(words[:50]) + '...'  # Join first 50 words
-    return render_template('home/blog_list.html', articles=articles, title=title)
+    return render_template('home/blog_list.html',
+                           articles=articles, title=title, pages=pages)
 
 
-# Route to display details of a specific article
+# Route to display details of a specific articleposts=posts.items)
 @home.route('/article_details/<int:id>')
 def article_details(id):
     """
@@ -62,10 +80,15 @@ def article_details(id):
         .group_by(Category.id) \
         .order_by(Category.id) \
         .all()
-    recent_posts = Article.query.order_by(Article.date_published.desc()).limit(4).all()
+    recent_posts = Article.query.order_by(Article.date_published.desc()).limit(4)
 
     # Query to fetch similar posts belong to the same category
-    similar_posts = Article.query.filter_by(category=article.category).filter(Article.id != article.id).order_by(Article.date_published.desc()).limit(3).all()
+    similar_posts = Article.query.filter_by(category=article.category).filter(Article.id != article.id).order_by(
+        Article.date_published.desc()).limit(3).all()
+    for post in similar_posts:
+        words = post.main_content.split()  # Split content into words
+        if len(words) > 50:
+            post.main_content = ' '.join(words[:50]) + '...'  # Join first 50 words
 
     return render_template('home/article_detail.html',
                            article=article, category_blog_count=category_blog_count,
