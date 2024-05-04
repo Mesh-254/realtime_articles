@@ -23,15 +23,37 @@
         <div class="container">
             <div class="row justify-content-end">
                 <div class="col-md-4">
-                    <form method="get" class="search-form">
+                    <form method="get" class="search-form" action="{{ url_for('article.article_list') }}">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                                   aria-describedby="button-addon2">
+                                   aria-describedby="button-addon2" id="search-input" name="q">
+
                             <div class="input-group-append">
                                 <button class="btn btn-pink" type="submit" id="button-addon2">Search</button>
                             </div>
                         </div>
                     </form>
+                    {#                    <script>#}
+                    {#                        document.addEventListener("DOMContentLoaded", function () {#}
+                    {#                            var searchInput = document.getElementById('search-input');#}
+                    {#                            searchInput.addEventListener('input', function () {#}
+                    {#                                var searchTerm = searchInput.value.trim();#}
+                    {#                                console.log("Search term:", searchTerm); // Debugging statement#}
+                    {#                                fetchArticles(searchTerm);#}
+                    {#                            });#}
+                    {#                        });#}
+                    {##}
+                    {#                        function fetchArticles(searchTerm) {#}
+                    {#                            console.log("Fetching articles for search term:", searchTerm); // Debugging statement#}
+                    {#                            fetch("/article_list?q=" + searchTerm)#}
+                    {#                                .then(response => response.text())#}
+                    {#                                .then(data => {#}
+                    {#                                    console.log("Received data:", data); // Debugging statement#}
+                    {#                                    document.getElementById("article-list").innerHTML = data;#}
+                    {#                                })#}
+                    {#                                .catch(error => console.error('Error:', error));#}
+                    {#                        }#}
+                    {#                    </script>#}
                 </div>
             </div>
         </div>
@@ -53,7 +75,8 @@
             {% for article in articles %}
                 <tbody>
 
-                <tr>
+                <tr id="article-list">
+
                     <td>{{ loop.index }}</td>
                     <td>
                         <p style="text-transform: capitalize; color:black">{{ article.main_title }} </p>
@@ -71,13 +94,17 @@
 
                     <td class="align-middle  text-center">
                         <div class="d-inline-block align-middle">
-                            <a href="{{ url_for('article.update_article', article_id = article.id) }}" class="btn btn-info btn-sm">Edit
+                            <a href="{{ url_for('article.update_article', article_id = article.id) }}"
+                               class="btn btn-info btn-sm">Edit
                                 Details</a>
-                            <a href="{{ url_for('article.delete_article', article_id = article.id) }}" class="btn btn-danger btn-sm"> Delete
+                            <a href="{{ url_for('article.delete_article', article_id = article.id) }}"
+                               class="btn btn-danger btn-sm"> Delete
                                 Article </a>
                         </div>
                     </td>
+
                 </tr>
+
                 </tbody>
             {% endfor %}
 
