@@ -240,12 +240,12 @@ Header END -->
                                             <div class="w-100 my-auto">
                                                 <div class="col-md-10 col-lg-7 mx-auto text-center">
                                                     <!-- Card category -->
-                                                    <a href="#" class="{{ random_badge_class }} mb-2">
+                                                    <a href="{{ url_for('category.get_articles_by_category', category_id=query.id) }}" class="{{ random_badge_class }} mb-2">
                                                         <i class="bi bi-circle-fill me-2 small fw-bold"></i>
                                                         {{ query.name }}
                                                     </a>
                                                     <!-- Card title -->
-                                                    <h2 class="text-white display-5"><a href="post-single-2.html"
+                                                    <h2 class="text-white display-5"><a href="{{ url_for('category.get_articles_by_category', category_id=query.id) }}"
                                                                                         class="btn-link text-reset fw-normal"> {{ query.name }}</a>
                                                     </h2>
                                                     <p class="text-white">{{ query.description }}</p>
