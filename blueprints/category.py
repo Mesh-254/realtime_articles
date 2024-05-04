@@ -30,10 +30,27 @@ def categories():
 def get_articles_by_category(category_id):
     category = Category.query.get_or_404(category_id)
 
-    articles = Article.query.filter_by(category_id=category_id).all()
+    # all articles query to feed trending articles it fetches the latest 15 blogs
+    articles_query = Article.query.order_by(Article.date_published.desc()).limit(10)
+
+    search_term = request.args.get('q', '')
+    if search_term:
+        articles = Article.query.filter_by(category_id=category_id).filter(
+            Article.main_title.ilike(f'%{search_term}%') | Article.main_content.contains(search_term)).order_by(
+            Article.date_published.desc())
+    else:
+        articles = Article.query.filter_by(category_id=category_id).order_by(
+            Article.date_published.desc())
+
+    # Pagination
+    page = request.args.get('page')
+    if page and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+    pages = articles.paginate(page=page, per_page=10)
 
     reading_time = 0  # Default value for reading time
-
     # limiting the number of content to be displayed on screen
     for query in articles:
 
@@ -48,12 +65,11 @@ def get_articles_by_category(category_id):
 
     # List of icon classes
     icon_badges = [
-            "badge text-bg-warning", "badge text-bg-success", "badge bg-dark", "badge bg-primary", " badge text-bg-info"
+        "badge text-bg-warning", "badge text-bg-success", "badge bg-dark", "badge bg-primary", " badge text-bg-info"
 
     ]
     # Randomly select an icon class
     random_badge_class = random.choice(icon_badges)
 
-    return render_template('/category/articles_by_category_list.html',
-                           articles=articles, category=category, reading_time=reading_time,
-                           random_badge_class=random_badge_class)
+    return render_template('/category/articles_by_category_list.html', category=category, reading_time=reading_time,
+                           random_badge_class=random_badge_class, pages=pages, articles_query=articles_query)
