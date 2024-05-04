@@ -118,7 +118,7 @@ Header START -->
                     <div class="nav-item w-100">
                         <form class="rounded position-relative">
                             <input class="form-control pe-5 bg-light" type="search" placeholder="Search the blog"
-                                   aria-label="Search">
+                                   aria-label="Search" name="q">
                             <button class="btn bg-transparent border-0 px-2 py-0 position-absolute top-50 end-0 translate-middle-y"
                                     type="submit"><i class="bi bi-search fs-5"> </i></button>
                         </form>
@@ -129,8 +129,7 @@ Header START -->
 
                     <!-- Nav item 1 Demos -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="{{ url_for('home.index') }}" id="homeMenu" data-bs-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">Home</a>
+                        <a class="nav-link" href="{{ url_for('home.index') }}" id="homeMenu">Home</a>
                     </li>
 
                     <!-- Nav item 2 Pages -->
@@ -206,6 +205,11 @@ Header END -->
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
+{% if not pages.items %}
+    <div class="alert alert-info text-center" role="alert">
+        There are no available articles under this category. They are coming soon!
+    </div>
+{% endif %}
 
     <!-- =======================
     Main hero START -->
@@ -217,46 +221,42 @@ Header END -->
                         <div class="tiny-slider-inner" data-autoplay="true" data-hoverpause="true" data-gutter="0"
                              data-arrow="true" data-dots="false" data-items="1">
                             <!-- Slide 1 -->
-                            {% if articles %}
-                                {% for query in articles %}
-                                    <div class="card card-overlay-bottom card-bg-scale h-400 h-sm-500 h-md-600 rounded-0"
-                                         style="background-image:url({{ url_for('home.get_uploaded_image', filename=query.main_image) }}); background-position: center left; background-size: cover;">
-                                        <!-- Card Image overlay -->
-                                        <div class="card-img-overlay d-flex align-items-center p-3 p-sm-5">
-                                            <div class="w-100 mt-auto">
-                                                <div class="col-md-10 col-lg-7">
-                                                    <!-- Card category -->
-                                                    <a href="#" class="badge bg-primary mb-2"><i
-                                                            class="bi bi-circle-fill me-2 small fw-bold"></i>{{ category.name }}
-                                                    </a>
-                                                    <!-- Card title -->
-                                                    <h2 class="text-white display-5"><a href="post-single-4.html"
-                                                                                        class="btn-link text-reset fw-normal">{{ query.main_title }}</a>
-                                                    </h2>
-                                                    <p class="text-white"></p>
-                                                    <!-- Card info -->
-                                                    <ul class="nav nav-divider text-white-force align-items-center d-none d-sm-inline-block">
-                                                        <li class="nav-item">
-                                                            <div class="nav-link">
-                                                                <div class="d-flex align-items-center text-white position-relative">
+                            {% for query in pages %}
+                                <div class="card card-overlay-bottom card-bg-scale h-400 h-sm-500 h-md-600 rounded-0"
+                                     style="background-image:url({{ url_for('home.get_uploaded_image', filename=query.main_image) }}); background-position: center left; background-size: cover;">
+                                    <!-- Card Image overlay -->
+                                    <div class="card-img-overlay d-flex align-items-center p-3 p-sm-5">
+                                        <div class="w-100 mt-auto">
+                                            <div class="col-md-10 col-lg-7">
+                                                <!-- Card category -->
+                                                <a href="{{ url_for('home.article_details', id=query.id) }}"
+                                                   class="badge bg-primary mb-2"><i
+                                                        class="bi bi-circle-fill me-2 small fw-bold"></i>{{ category.name }}
+                                                </a>
+                                                <!-- Card title -->
+                                                <h2 class="text-white display-5"><a
+                                                        href="{{ url_for('home.article_details', id=query.id) }}"
+                                                        class="btn-link text-reset fw-normal">{{ query.main_title }}</a>
+                                                </h2>
+                                                <p class="text-white"></p>
+                                                <!-- Card info -->
+                                                <ul class="nav nav-divider text-white-force align-items-center d-none d-sm-inline-block">
+                                                    <li class="nav-item">
+                                                        <div class="nav-link">
+                                                            <div class="d-flex align-items-center text-white position-relative">
                                                                 <span class="ms-3">by <a href="#"
                                                                                          class="stretched-link text-reset btn-link">Fridah Nkatha</a></span>
-                                                                </div>
                                                             </div>
-                                                        </li>
-                                                        <li class="nav-item">{{ query.date_published.strftime("%d, %B %Y") }}</li>
-                                                        <li class="nav-item">{{ reading_time }} min read</li>
-                                                    </ul>
-                                                </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="nav-item">{{ query.date_published.strftime("%d, %B %Y") }}</li>
+                                                    <li class="nav-item">{{ reading_time }} min read</li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="alert alert-info" role="alert">
-                                    There are no available articles under this category. They are coming soon!
                                 </div>
-                            {% endif %}
+                            {% endfor %}
                             <!-- End of slide -->
                         </div>
                     </div>
@@ -274,16 +274,18 @@ Header END -->
             <div class="row">
                 <div class="col-12">
                     <!-- Card item START -->
-                    {% for query in articles %}
+                    {% for query in pages %}
                         <div class="card border rounded-3 up-hover p-4 mb-4">
                             <div class="row g-3">
                                 <div class="col-lg-5">
                                     <!-- Categories -->
-                                    <a href="#" class="{{ random_badge_class }} mb-2"><i
-                                            class="bi bi-circle-fill me-2 small fw-bold"></i>Marketing</a>
+                                    <a href="{{ url_for('category.get_articles_by_category', category_id = query.id) }}"
+                                       class="{{ random_badge_class }} mb-2"><i
+                                            class="bi bi-circle-fill me-2 small fw-bold"></i>{{ query.category.name }}
+                                    </a>
                                     <!-- Title -->
                                     <h2 class="card-title">
-                                        <a href="post-single-6.html"
+                                        <a href="{{ url_for('home.article_details', id=query.id) }}"
                                            class="btn-link text-reset stretched-link">{{ query.main_title }}</a>
                                     </h2>
                                     <!-- Author info -->
@@ -294,7 +296,8 @@ Header END -->
                                             </h5>
                                             <ul class="nav align-items-center small">
                                                 <li class="nav-item me-3">{{ query.date_published.strftime("%d, %B %Y") }}</li>
-                                                <li class="nav-item"><i class="fas fa-clock me-1"></i>{{ reading_time }}
+                                                <li class="nav-item"><i
+                                                        class="fas fa-clock me-1"></i>{{ reading_time }}
                                                     min read
                                                 </li>
                                             </ul>
@@ -315,12 +318,34 @@ Header END -->
                         </div>
                     {% endfor %}
                     <!-- Card item END -->
-
-                    <!-- Load more -->
-                    <button type="button" class="btn btn-primary-soft w-100">Load more post <i
-                            class="bi bi-arrow-down-circle ms-2 align-middle"></i></button>
-
                 </div>
+                <!-- Bootstrap Pagination Links -->
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item {% if not pages.has_prev %}disabled{% endif %}">
+                                    <a class="page-link"
+                                       href="{{ url_for('category.get_articles_by_category', category_id=category.id, page=pages.prev_num) }}">Previous</a>
+                                </li>
+
+                                {% for page_num in pages.iter_pages() %}
+                                    <li class="page-item {% if page_num == pages.page %}active{% endif %}">
+                                        <a class="page-link"
+                                           href="{{ url_for('category.get_articles_by_category', category_id=category.id, page=page_num) }}">{{ page_num }}</a>
+                                    </li>
+                                {% endfor %}
+
+                                <li class="page-item {% if not pages.has_next %} disabled {% endif %}">
+                                    <a class="page-link"
+                                       href="{{ url_for('category.get_articles_by_category', category_id=category.id, page=pages.next_num) }}">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!--End of Bootstrap Pagination Links -->
+
             </div>
         </div>
     </section>
@@ -329,372 +354,40 @@ Header END -->
 
 
     <!-- =======================
-    Small post START -->
-    <section class="pt-4 pb-0">
-        <div class="container">
-            <div class="row">
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/07_1.jpg" alt="Card image">
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">7 common
-                                mistakes everyone makes while traveling</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Louis Ferguson</a>
-                                </li>
-                                <li class="nav-item">Mar 07, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/08.jpg" alt="Card image">
-                            <div class="card-img-overlay d-flex align-items-start flex-column p-3">
-                                <!-- Card overlay Top -->
-                                <div class="w-100 mb-auto d-flex justify-content-end">
-                                    <div class="text-end ms-auto">
-                                        <!-- Card format icon -->
-                                        <div class="icon-md bg-white bg-opacity-10 bg-blur text-white fw-bold rounded-circle"
-                                             title="8.5 rating">8.5
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">Skills that you
-                                can learn from business</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Samuel Bishop</a>
-                                </li>
-                                <li class="nav-item">Aug 15, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/09.jpg" alt="Card image">
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">10 tell-tale
-                                signs you need to get a new business</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Dennis Barrett</a>
-                                </li>
-                                <li class="nav-item">Jun 01, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/10.jpg" alt="Card image">
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">This is why
-                                this year will be the year of startups</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Bryan Knight</a>
-                                </li>
-                                <li class="nav-item">Dec 07, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/11.jpg" alt="Card image">
-                            <div class="card-img-overlay d-flex align-items-start flex-column p-3">
-                                <!-- Card overlay Top -->
-                                <div class="w-100 mb-auto d-flex justify-content-end">
-                                    <div class="text-end ms-auto">
-                                        <!-- Card format icon -->
-                                        <div class="icon-md bg-success text-white fw-bold rounded-circle"
-                                             title="This post has video"><i class="fas fa-video"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">Best Pinterest
-                                Boards for learning about business</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Judy Nguyen</a>
-                                </li>
-                                <li class="nav-item">Sep 07, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/12.jpg" alt="Card image">
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">How did we get
-                                here? The real history of our business</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Amanda Reed</a>
-                                </li>
-                                <li class="nav-item">Aug 06, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/13.jpg" alt="Card image">
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">Facts about
-                                business that will put you in a good mood</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Joan Wallace</a>
-                                </li>
-                                <li class="nav-item">Feb 18, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-                <!-- Card item START -->
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card mb-4">
-                        <!-- Card img -->
-                        <div class="card-fold position-relative">
-                            <img class="card-img" src="images/14.jpg" alt="Card image">
-                            <div class="card-img-overlay d-flex align-items-start flex-column p-3">
-                                <!-- Card overlay Top -->
-                                <div class="w-100 mb-auto d-flex justify-content-end">
-                                    <div class="text-end ms-auto">
-                                        <!-- Card format icon -->
-                                        <div class="icon-md bg-danger text-white fw-bold rounded-circle"
-                                             title="This post has audio"><i class="fas fa-volume-up"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pt-3">
-                            <h4 class="card-title"><a href="post-single.html"
-                                                      class="btn-link text-reset stretched-link fw-bold">Questions
-                                everyone working in IT should know how to answer</a></h4>
-                            <!-- Card info -->
-                            <ul class="nav nav-divider align-items-center text-uppercase small">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-reset btn-link">Lori Stevens</a>
-                                </li>
-                                <li class="nav-item">Jun 03, 2022</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card item END -->
-            </div>
-        </div>
-    </section>
-    <!-- =======================
-    Small post END -->
-
-    <!-- =======================
     Tab post START -->
     <section class="pt-4 pb-0">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <ul class="nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link fs-5 active" data-bs-toggle="tab" href="#tab-1-1"> <i
-                                class="fab fa-readme me-2"></i> Most read </a></li>
-                        <li class="nav-item"><a class="nav-link fs-5" data-bs-toggle="tab" href="#tab-1-2"> <i
-                                class="fas fa-fire me-2"></i> Trending </a></li>
+                        <li class="nav-item"><a class="nav-link fs-5 active" data-bs-toggle="tab" href="#tab-1-1">
+                            <span class="me-2"><i class="bi bi-journal-text"></i></span> Trending </a></li>
+                        <li class="nav-item"><a class="nav-link fs-5" data-bs-toggle="tab" href="#tab-1-2">
+                            <span class="me-2">
+                                <i class="bi bi-fire"></i>
+                            </span>
+                            Most read </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <!-- Most read tab START -->
                         <div class="tab-pane show active" id="tab-1-1">
-                            <div class="row">
-                                <!-- Tab items group START -->
-                                <div class="col-md-4">
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">01</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">The most common
-                                            business debate isn't as black and white as you might think</a></h5>
+                            {% for article in articles_query %}
+                                <div class="row">
+                                    <!-- Tab items group START -->
+                                    <div class="col-md-4">
+                                        <!-- Item -->
+                                        <div class="d-flex position-relative mb-3">
+                                            <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">{{ loop.index }}</span>
+                                            <h5><a href="{{ url_for('home.article_details', id = article.id) }}"
+                                                   class="stretched-link text-reset btn-link">{{ article.main_title }}</a>
+                                            </h5>
+                                        </div>
                                     </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">02</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Never underestimate
-                                            the influence of social media</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">03</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Business ideas that
-                                            will boom in upcoming years</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">04</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">How the 10 worst
-                                            business fails of all time could have been prevented</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">05</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">8 initial problem of
-                                            startups and their solution</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">06</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Dirty little secrets
-                                            about the business industry</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">07</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Ten unconventional
-                                            tips about startups that you can't learn from books</a></h5>
-                                    </div>
+                                    <!-- Tab items group END -->
+
                                 </div>
-                                <!-- Tab items group END -->
-                                <!-- Tab items group START -->
-                                <div class="col-md-4">
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">08</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">How did we get here?
-                                            The history of the business told through tweets</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">09</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Bad habits that
-                                            people in the business industry need to quit</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">10</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">7 lessons that will
-                                            teach you all you need to know a startup</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">11</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">12 worst types of
-                                            business accounts you follow on Twitter</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">12</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Around the web: 20
-                                            fabulous info-graphics about business</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">13</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">10 biggest problem of
-                                            startups, and how you can fix it</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">14</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">The no. 1 question
-                                            everyone working in business should know how to answer</a></h5>
-                                    </div>
-                                </div>
-                                <!-- Tab items group END -->
-                                <!-- Tab items group START -->
-                                <div class="col-md-4">
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">15</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Best Twitter accounts
-                                            for learning about investment</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">16</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">This is why this year
-                                            will be the year of startups</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">17</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Best Pinterest Boards
-                                            for learning about business</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">18</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">10 tell-tale signs
-                                            you need to get a new business</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">19</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">The business debate
-                                            isn't as black and white as you might think</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">20</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Questions everyone
-                                            working in IT should know how to answer</a></h5>
-                                    </div>
-                                </div>
-                                <!-- Tab items group END -->
-                            </div>
+                            {% endfor %}
                         </div>
                         <!-- Most read tab END -->
                         <!-- Trending tab START -->
@@ -703,139 +396,13 @@ Header END -->
                                 <!-- Tab items group START -->
                                 <div class="col-md-4">
                                     <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">01</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">10 facts about
-                                            business that will instantly put you in a good mood</a></h5>
-                                    </div>
+                                    <p>Coming Soon !</p>
                                     <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">02</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Around the web: 20
-                                            fabulous info-graphics about business</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">03</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">The most common
-                                            business debate isn't as black and white as you might think</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">04</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">The business debate
-                                            isn't as black and white as you might think</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">05</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">12 worst types of
-                                            business accounts you follow on Twitter</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">06</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">7 lessons that will
-                                            teach you all you need to know a startup</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">07</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Worst business fails
-                                            of all time could have been prevented</a></h5>
-                                    </div>
-                                </div>
-                                <!-- Tab items group END -->
-                                <!-- Tab items group START -->
-                                <div class="col-md-4">
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">08</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">8 initial problem of
-                                            startups and their solution</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">09</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">This is why this year
-                                            will be the year of startups</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">10</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Dirty little secrets
-                                            about the business industry</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">11</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">10 biggest problem of
-                                            startups, and how you can fix it</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">12</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">The no. 1 question
-                                            everyone working in business should know how to answer</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">13</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Best Twitter accounts
-                                            for learning about investment</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">14</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Best Pinterest Boards
-                                            for learning about business</a></h5>
-                                    </div>
-                                </div>
-                                <!-- Tab items group END -->
-                                <!-- Tab items group START -->
-                                <div class="col-md-4">
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">15</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">10 tell-tale signs
-                                            you need to get a new business</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">16</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">How 10 worst business
-                                            fails of all time could have been prevented</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">17</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Questions everyone
-                                            working in IT should know how to answer</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">18</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Business idea that
-                                            will instantly put you in a good mood</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">19</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">How did we get here?
-                                            The real history of our business</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">20</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">7 common mistakes
-                                            everyone makes while traveling</a></h5>
-                                    </div>
-                                    <!-- Item -->
-                                    <div class="d-flex position-relative mb-3">
-                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">21</span>
-                                        <h5><a href="#" class="stretched-link text-reset btn-link">Worst business fails
-                                            of all time could have been prevented</a></h5>
-                                    </div>
+                                    {#                                    <div class="d-flex position-relative mb-3">#}
+                                    {#                                        <span class="me-3 mt-n1 fa-fw fw-bold fs-3 opacity-5">21</span>#}
+                                    {#                                        <h5><a href="#" class="stretched-link text-reset btn-link">Worst business fails#}
+                                    {#                                            of all time could have been prevented</a></h5>#}
+                                    {#                                    </div>#}
                                 </div>
                                 <!-- Tab items group END -->
                             </div>
