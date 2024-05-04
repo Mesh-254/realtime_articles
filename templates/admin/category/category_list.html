@@ -23,15 +23,39 @@
         <div class="container">
             <div class="row justify-content-end">
                 <div class="col-md-4">
-                    <form method="get" class="search-form">
+                    <form method="get" class="search-form" action="{{ url_for('article.category_list') }}">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                                   aria-describedby="button-addon2">
+                                   aria-describedby="button-addon2" id="search-input" name="q">
                             <div class="input-group-append">
                                 <button class="btn btn-pink" type="submit" id="button-addon2">Search</button>
                             </div>
                         </div>
                     </form>
+                                      <!-- CODE TO SERACH BY ENTRIES WHILE LISTING ALL THE CATEGORIS MATCHING THE QUERY -->
+                    {#                    <script>#}
+                    {#                        document.addEventListener("DOMContentLoaded", function () {#}
+                    {#                            var searchInput = document.getElementById('search-input');#}
+                    {#                            searchInput.addEventListener('input', function () {#}
+                    {#                                var searchTerm = searchInput.value.trim().toLowerCase(); // Convert search term to lowercase#}
+                    {#                                console.log("Search term:", searchTerm); // Debugging statement#}
+                    {#                                filterCategories(searchTerm);#}
+                    {#                            });#}
+                    {#                        });#}
+                    {##}
+                    {#                        function filterCategories(searchTerm) {#}
+                    {#                            var rows = document.querySelectorAll('#category-table-body tr');#}
+                    {#                            rows.forEach(function (row) {#}
+                    {#                                var categoryName = row.querySelector('.category-name').textContent.trim().toLowerCase();#}
+                    {#                                if (categoryName.includes(searchTerm)) {#}
+                    {#                                    row.style.display = ''; // Show the row if category name matches search term#}
+                    {#                                } else {#}
+                    {#                                    row.style.display = 'none'; // Hide the row if category name does not match search term#}
+                    {#                                }#}
+                    {#                            });#}
+                    {#                        }#}
+                    {#                    </script>#}
+
                 </div>
             </div>
         </div>
@@ -40,7 +64,7 @@
 
         <thead class="thead-dark align-middle">
         <tr style="background-color: #343a40; font-size: 1.2rem; color: white; text-transform: capitalize; height: 40px">
-           <th width="5%">S/No</th>
+            <th width="5%">S/No</th>
             <th width="20%">Category Name</th>
             <th width="40%">Description</th>
             <th style="text-align: center">Actions</th>
@@ -49,11 +73,11 @@
 
         {% if queryset %}
 
-            <tbody>
+            <tbody id="category-table-body">
             {% for category in queryset %}
                 <tr>
-                   <td>{{ loop.index }}</td>
-                    <td>
+                    <td>{{ loop.index }}</td>
+                    <td class="category-name">
                         <p style="text-transform: capitalize; color:black">{{ category.name }} </p>
                     </td>
                     <td>
@@ -61,10 +85,12 @@
                     </td>
                     <td class="align-middle  text-center">
                         <div class="d-inline-block align-middle">
-                                            <a href="{{url_for('article.edit_category', category_id =  category.id)}}" class="btn btn-info btn-sm">Edit
-                                                Details</a>
-                                            <a href="{{url_for('article.delete_category', id =  category.id)}}" class="btn btn-danger btn-sm"> Delete
-                                                Category </a>
+                            <a href="{{ url_for('article.edit_category', category_id =  category.id) }}"
+                               class="btn btn-info btn-sm">Edit
+                                Details</a>
+                            <a href="{{ url_for('article.delete_category', id =  category.id) }}"
+                               class="btn btn-danger btn-sm"> Delete
+                                Category </a>
                         </div>
                     </td>
                 </tr>
