@@ -48,6 +48,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
 </head>
 
 <body>
@@ -90,11 +91,41 @@
                     <nav id="site-navigation" class="navigation main-navigation" role="navigation">
                         <div class="nav-menu">
                             <ul>
-                                <li class="page_item page-item-599"><a href="#" data-wpel-link="internal">Home</a></li>
-                                <li class="page_item page-item-39"><a href="{{ url_for('home.article_pricing') }}" data-wpel-link="internal">Pricing</a></li>
-                                <li class="page_item page-item-39"><a href="{{ url_for('category.categories') }}" data-wpel-link="internal">CATEGORIES</a>
+                                <li class="page_item page-item-599"><a href="{{ url_for('home.index') }}"
+                                                                       data-wpel-link="internal">Home</a></li>
+                                <li class="page_item page-item-39"><a href="{{ url_for('home.article_pricing') }}"
+                                                                      data-wpel-link="internal">Pricing</a></li>
+                                <li class="page_item page-item-39"><a href="{{ url_for('category.categories') }}"
+                                                                      data-wpel-link="internal">CATEGORIES</a>
+
                                 </li>
+
                                 <li class="page_item page-item-717"><a href="#" data-wpel-link="internal">Contact Us</a>
+                                </li>
+                                <li class="page-item page-item-39">
+                                    {#                                    <form method="get" class="search-form" action="{{ url_for('home.index') }}">#}
+                                    {#                                        <div class="input-group mt-2">#}
+                                    {#                                            <input type="text" class="form-control" placeholder="Search"#}
+                                    {#                                                   aria-label="Search" aria-describedby="button-addon2"#}
+                                    {#                                                   id="search-input" name="q">#}
+                                    {#                                            <div class="input-group-append">#}
+                                    {#                                                <button class="btn btn-pink" type="submit" id="button-addon2"><i#}
+                                    {#                                                        class="fa fa-search"></i></button>#}
+                                    {#                                            </div>#}
+                                    {#                                        </div>#}
+                                    {#                                    </form>#}
+                                    <form class="rounded position-relative">
+
+                                        <div class="position-relative">
+                                            <input class="form-control pe-5 bg-light" type="search"
+                                                   placeholder="Search the blog"
+                                                   aria-label="Search" name="q">
+                                            <button class="btn bg-transparent border-0 px-2 py-0 position-absolute top-50 end-0 translate-middle-y"
+                                                    type="submit" id="button-addon2"><i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+
                                 </li>
                             </ul>
                         </div>
@@ -109,7 +140,7 @@
             <div class="container-fluid px-2"> <!-- Added px-2 for left and right padding -->
                 <div class="row no-padding-col"> <!-- Apply no-padding-col class to remove column padding -->
                     {% if articles %}
-                        {% for article in articles %}
+                        {% for article in pages.items %}
                             <div class="col-md-4">
                                 <article>
                                     <div class="row">
@@ -148,6 +179,34 @@
                     {% endif %}
                 </div>
             </div>
+
+            <!-- Bootstrap Pagination Links -->
+            <div class="container">
+                <div class="row justify-content-center">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item {% if not pages.has_prev %}disabled{% endif %}">
+                                <a class="page-link" href="./?page={{ pages.prev_num }}">Prev</a>
+                            </li>
+
+                            {% for page in pages.iter_pages() %}
+                                <li class="page-item {% if page==pages.page %} active {% endif %}" aria-current="page">
+                                    <a class="page-link" href="./?page={{ page }}">{{ page }}
+                                        <span class="sr-only">(current)</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                            <li class="page-item {% if not pages.has_next %} disabled {% endif %}">
+                                <a class="page-link" href="./?page={{ pages.next_num }}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!--End of Bootstrap Pagination Links -->
+
+
         </section>
     </div>
 
