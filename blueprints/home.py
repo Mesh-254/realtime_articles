@@ -60,7 +60,7 @@ def index():
                            articles=articles, title=title, pages=pages)
 
 
-# Route to display details of a specific articleposts=posts.items)
+# Route to display details of a specific articleposts=posts.items
 @home.route('/article_details/<int:id>')
 def article_details(id):
     """

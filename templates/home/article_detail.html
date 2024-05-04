@@ -44,12 +44,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        .text {
-            white-space: pre-line; /* Preserve newline characters */
-            margin: 20px 0; /* Add margin between paragraphs */
-        }
-    </style>
+
+    {#    bootsrap CDN #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
 
@@ -98,14 +96,17 @@
                                             class="primary-color fas fa-user"></i> by {{ article.author.username }}</span>
                                     <span><i
                                             class="primary-color fas fa-calendar"></i> {{ article.date_published.strftime('%B %d, %Y') }}</span>
-                                    <span><i class="primary-color fas fa-tag"></i> {{ article.category.name }}</span>
+                                    <span><a
+                                            href="{{ url_for('category.get_articles_by_category', category_id = article.id) }}"
+                                            style="color: seagreen"><i
+                                            class="primary-color fas fa-tag"></i> {{ article.category.name }}</a></span>
 
-                                    {% if article.main_image %}
+                                    {% if article.main_image != '' %}
                                         <img class="img-responsive-1"
                                              src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}"
                                              alt="Image">
                                     {% else %}
-                                        <p>image</p>
+                                        <p>No image available ! </p>
                                     {% endif %}
                                 </div>
                                 <!-- Post Content -->
@@ -131,20 +132,20 @@
                                     <!-- ADMIN info -->
                                     <div class="admin-info">
                                         <div class="media-left">
-                                            <div class="admin-pic"><img src="images/admin-avatar.jpg" alt=""></div>
+                                            <div class="admin-pic"><img src="/static/images/home_images/video-img.jpg" alt="Profile"></div>
                                         </div>
                                         <div class="media-body">
-                                            <h6>Meshack S. <span>Co-Founder</span></h6>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. NullamMorbi
-                                                ac
-                                                scelerisque mauris. Etiam sodales a nulla ornare viverra. Nunc at
-                                                blandit
-                                                neque, bociis natoque penatcing e scelerisque miscing elit. </p>
-                                            <div class="admin-social"><a href="#."><i
-                                                    class="icon-social-facebook"></i></a>
-                                                <a href="#."><i class="icon-social-twitter"></i></a> <a href="#."><i
-                                                        class="icon-social-dribbble"></i></a> <a href="#."><i
-                                                        class="icon-envelope"></i></a></div>
+                                            <h6>Fridah S. <span>Founder</span></h6>
+                                            <p>"Explore a world of inspiration and empowerment at RealtimeArticles. Dive
+                                                into our curated articles for insights, reflection, and shared growth.
+                                                Join our community on a journey of discovery and evolution!"</p>
+                                            <div class="admin-social">
+                                                <a href="#."><i class="fab fa-facebook"></i></a>
+                                                <a href="#."><i class="fab fa-twitter"></i></a>
+                                                <a href="#."><i class="fab fa-dribbble"></i></a>
+                                                <a href="#."><i class="fas fa-envelope"></i></a>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -213,15 +214,19 @@
                                         {% else %}
                                             <p>image</p>
                                         {% endif %}
-                                        <div class="col-sm-12">
-                                            <!-- Tittle -->
-                                            <div class="post-tittle left"><a href="#."
-                                                                             class="tittle">{{ post.main_title }}</a>
-                                                <!-- Post Info -->
-                                                <span><i class="primary-color icon-user"></i> by admin</span> <span><i
-                                                        class="primary-color icon-calendar"></i> April 27, 2016</span>
-                                                <span><i class="primary-color icon-bubble"></i> 05</span> <span><i
-                                                        class="primary-color icon-tag"></i> Furniture</span></div>
+                                        <div class="col-sm-15">
+                                        <!-- Tittle -->
+                                        <div class="post-tittle left"><a href="#."
+                                                                         class="tittle">{{ post.main_title }}</a>
+                                            <!-- Post Info -->
+                                            <span><i
+                                                    class="primary-color fas fa-user"></i> by {{ post.author.username }}</span>
+                                            <span><i
+                                                    class="primary-color fas fa-calendar"></i> {{ post.date_published.strftime('%B %d, %Y') }}</span>
+                                            <span><a
+                                                    href="{{ url_for('category.get_articles_by_category', category_id = post.id) }}"
+                                                    style="color: seagreen"><i
+                                                    class="primary-color fas fa-tag"></i> {{ post.category.name }}</a></span>
                                             <!-- Post Content -->
                                             <div class="text-left">
                                                 <p> {{ post.main_content | safe }}</p>
@@ -251,7 +256,7 @@
                             {% if category_blog_count %}
                                 <ul class="shop-cate">
                                     {% for category, blog_count in category_blog_count %}
-                                        <li><a href="#">{{ category.name }}
+                                        <li><a href="{{ url_for('category.get_articles_by_category', category_id = category.id) }}">{{ category.name }}
                                             <span>({{ blog_count }} articles)</span></a></li>
                                     {% endfor %}
                                 </ul>
@@ -273,7 +278,7 @@
                                                                        href="{{ url_for('home.article_details', id=post.id) }}">
                                                 {{ post.main_title }}
                                             </a>
-                                                <span>Posted on {{ article.date_published.strftime('%B %d, %Y') }}</span>
+                                                <span>Posted on {{ post.date_published.strftime('%B %d, %Y') }}</span>
                                             </div>
                                         </li>
                                     {% endfor %}
@@ -309,20 +314,26 @@
                 <div class="news-letter padding-top-150 padding-bottom-150">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h3>We always stay with our clients and respect their business. We deliver 100% and provide
-                                instant response to help them succeed in constantly changing and challenging business
-                                world. </h3>
-                            <ul class="social_icons">
-                                <li><a href="#."><i class="icon-social-facebook"></i></a></li>
-                                <li><a href="#."><i class="icon-social-twitter"></i></a></li>
-                                <li><a href="#."><i class="icon-social-tumblr"></i></a></li>
-                                <li><a href="#."><i class="icon-social-youtube"></i></a></li>
-                                <li><a href="#."><i class="icon-social-dribbble"></i></a></li>
+                            <h3 style="text-align: justify-all">"Discover personalized insights and stay connected with
+                                our newsletter, delivering valuable content tailored to empower your success and keep
+                                you ahead in today's fast-paced world."
+                            </h3>
+                            <ul class="social-icons list-inline">
+                                <li class="list-inline-item"><a href="https://www.facebook.com" target="_blank"><i
+                                        class="fab fa-facebook"></i></a></li>
+                                <li class="list-inline-item"><a href="https://twitter.com" target="_blank"><i
+                                        class="fab fa-twitter"></i></a></li>
+                                <li class="list-inline-item"><a href="https://www.tumblr.com" target="_blank"><i
+                                        class="fab fa-tumblr"></i></a></li>
+                                <li class="list-inline-item"><a href="https://www.youtube.com" target="_blank"><i
+                                        class="fab fa-youtube"></i></a></li>
+                                <li class="list-inline-item"><a href="https://dribbble.com" target="_blank"><i
+                                        class="fab fa-dribbble"></i></a></li>
                             </ul>
                         </div>
                         <div class="col-lg-6">
                             <h3>Subscribe Our Newsletter</h3>
-                            <span>Phasellus lacinia fermentum bibendum. Interdum et malesuada fames ac.</span>
+                            <span>Stay ahead with exclusive insights!</span>
                             <form>
                                 <input type="email" placeholder="Enter your email address" required="">
                                 <button type="submit">Subscribe</button>
@@ -341,12 +352,12 @@
                 <!-- ABOUT Location -->
                 <div class="col-md-4">
                     <div class="about-footer"><img class="margin-bottom-30" src="images/logo-foot.png" alt="">
-                        <p><i class="icon-pointer"></i> Street No. 12, Newyork 12, <br>
-                            MD - 123, USA.</p>
-                        <p><i class="icon-call-end"></i> 1.800.123.456789 <br>
+                        <p><i class="fas fa-mouse-pointer"></i>  <!-- Pointer icon --> Street No. 12, Nairobi, <br>
+                            MD - 123, Nairobi.</p>
+                        <p><i class="fas fa-phone-alt"></i> <!-- Call end icon --> 1.800.123.456789 <br>
                             1.800.123.456789</p>
-                        <p><i class="icon-envelope"></i> info@BoShop.com <br>
-                            contact@BoShop.com</p>
+                        <p><i class="fas fa-envelope"></i> <!-- Envelope icon --> info@RealtimeArticles.com <br>
+                            contact@REaltimeArticles.com</p>
                     </div>
                 </div>
 
@@ -354,18 +365,8 @@
                 <div class="col-md-5">
                     <h6>Links</h6>
                     <ul class="link two-half">
-                        <li><a href="#."> Products</a></li>
-                        <li><a href="#."> Find a Store</a></li>
-                        <li><a href="#."> Features</a></li>
                         <li><a href="#."> Privacy Policy</a></li>
-                        <li><a href="#."> Blog</a></li>
-                        <li><a href="#."> Press Kit </a></li>
-                        <li><a href="#."> Products</a></li>
-                        <li><a href="#."> Find a Store</a></li>
-                        <li><a href="#."> Features</a></li>
-                        <li><a href="#."> Privacy Policy</a></li>
-                        <li><a href="#."> Blog</a></li>
-                        <li><a href="#."> Press Kit </a></li>
+                        <li><a href="{{ url_for('home.index') }}"> Blog</a></li>
                     </ul>
                 </div>
 
@@ -374,11 +375,9 @@
                     <h6>Account Info</h6>
                     <ul class="link">
                         <li><a href="#."> Products</a></li>
-                        <li><a href="#."> Find a Store</a></li>
                         <li><a href="#."> Features</a></li>
                         <li><a href="#."> Privacy Policy</a></li>
                         <li><a href="#."> Blog</a></li>
-                        <li><a href="#."> Press Kit </a></li>
                     </ul>
                 </div>
             </div>
@@ -388,7 +387,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <p>© 2018 BoShop All right reserved. <a href="https://webicode.com/">webicode</a></p>
+                        <p>© 2024 RealtimeArticles All right reserved. <a href="{{ url_for('home.index') }}">RealtimeArticles</a>
+                        </p>
                     </div>
                     <div class="col-md-6 text-right"><img src="images/card-icon.png" alt=""></div>
                 </div>
