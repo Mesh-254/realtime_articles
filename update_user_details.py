@@ -29,4 +29,3 @@ def update_admin(username, email, password):
 # Example usage:
 if __name__ == "__main__":
     result = update_admin('admin', 'admin@gmail.com', 'new_password')
-    print(result)
