@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Contact Form</title>
+
+    <!-- MDB UI Kit CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: teal;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .contact-container {
+            width: 55rem;
+            background-color: whitesmoke;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #007bff;
+        }
+
+       button{
+        margin: 0 auto;
+        height: 40px;
+        width: 80px;
+        border-radius: 10px;
+       }
+       .back a{
+        color: rgb(15, 15, 15);
+        margin-left: 10px;
+        margin-top: 20px;
+        font-weight: 500;
+       }
+    </style>
+</head>
+
+<body>
+    
+
+    <div class="contact-container">
+        <div class="back">
+            <a href="{{ url_for('home.index') }}" class="prev-page">
+                <i class="bi bi-arrow-90deg-left"> Back Home</i>
+            </a>
+        </div>
+        <h2>Question? Comment? Contact Us</h2>
+        <form action="https://api.web3forms.com/submit" method="POST">
+
+            <input type="hidden" name="access_key" value="50924cce-6d51-41b3-b1de-15747c3b313d">
+            <!-- Name input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" id="name"  name ="names"class="form-control" required/>
+                <label class="form-label" for="name">Name</label>
+            </div>
+
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" id="email" name="email" class="form-control" required/>
+                <label class="form-label" for="email">Email address</label>
+            </div>
+
+            <!-- Message input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <textarea class="form-control" id="textarea" name="message" rows="5" required></textarea>
+                <label class="form-label" for="textarea">Message</label>
+                <span id="char-remaining">Characters remaining: 300</span> <!-- Display remaining characters -->
+            </div>
+
+           
+
+            <!-- Submit button -->
+            <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-sm mb-4">Send</button>
+        </form>
+    </div>
+
+    <!-- MDB UI Kit JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+
+    <!-- Initialize MDB Components -->
+    <script type="module">
+        import { Input, Ripple, initMDB } from 'https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.esm.min.js';
+        initMDB({ Input, Ripple });
+    </script>
+    <script>
+        const textarea = document.getElementById('textarea');
+        const charRemaining = document.getElementById('char-remaining');
+        const maxChars = 300; // Maximum allowed characters
+    
+        // Add keyup event listener to the textarea
+        textarea.addEventListener('keyup', limitWords);
+    
+        function limitWords() {
+            const currentLength = textarea.value.length;
+    
+            // Check if current length exceeds the max characters
+            if (currentLength > maxChars) {
+                alert('Only 300 characters are allowed!');
+                textarea.value = textarea.value.slice(0, maxChars); // Trim excess characters
+            }
+    
+            // Update remaining characters count
+            const remaining = maxChars - textarea.value.length;
+            charRemaining.textContent = `Characters remaining: ${remaining}`;
+        }
+    </script>
+
+</body>
+
+</html>
