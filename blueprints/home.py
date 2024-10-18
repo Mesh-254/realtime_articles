@@ -105,3 +105,9 @@ def article_pricing():
         str: Rendered HTML template for the article pricing page.
     """
     return render_template('home/article_pricing.html')
+
+
+@home.route('/contact_us', methods =['GET', 'POST'])
+def contact_us():
+    """Function to enable user communication """
+    return render_template('home/contact_us.html')
