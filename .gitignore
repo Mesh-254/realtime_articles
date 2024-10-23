@@ -5,4 +5,4 @@ __pycache__
 realtime_articles.db
 *.gz
 static/uploads
-
+venv
