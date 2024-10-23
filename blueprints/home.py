@@ -112,6 +112,7 @@ def contact_us():
     """Function to enable user communication """
     return render_template('home/contact_us.html')
 
+
 @home.route('/terms_and_conditions')
 def terms_and_conditions():
     """Function to render terms and conditions"""
