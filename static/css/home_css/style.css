@@ -407,8 +407,6 @@ section {
     text-align: left;
 }
 
-.text-slide {
-}
 
 #content {
     background: #fff;
@@ -698,8 +696,7 @@ section {
 /*=======================================================
       OUR TEAM
 ========================================================*/
-.our-team {
-}
+
 
 .our-team li {
     list-style: none;
@@ -743,8 +740,6 @@ section {
     opacity: 1;
 }
 
-.our-team article:hover img {
-}
 
 .our-team .team-hover img {
     border-radius: 50%;
@@ -1148,8 +1143,7 @@ section {
     font-weight: normal;
 }
 
-.blog-list .post-tittle .tags:before {
-}
+
 
 .blog-list .post-tittle.left {
     text-align: left;
@@ -1322,8 +1316,7 @@ section {
 /*=======================================================
 			PAPULAR POST
 ========================================================*/
-.papu-post {
-}
+
 
 .papu-post .media-left {
     margin-right: 0px;
@@ -1488,8 +1481,7 @@ section {
     list-style: none;
 }
 
-.shop-sidebar ul {
-}
+
 
 .shop-tittle {
     font-size: 20px;
@@ -1560,16 +1552,6 @@ section {
     color: #333;
 }
 
-.shop-tags li a:before {
-}
-
-.shop-tags li a:hover:before {
-    width: 100%;
-}
-
-.shop-sidebar .colors li {
-    display: inline-block;
-}
 
 .shop-sidebar .colors li a {
     height: 13px;
@@ -1832,32 +1814,6 @@ section {
     margin-top: 10px;
 }
 
-.shopping-cart li input {
-    border: 1px solid #ebebeb;
-    width: 60px;
-    font-family: "Montserrat", sans-serif;
-    height: 44px;
-    float: left;
-    width: 100%;
-    display: inline-block;
-    text-align: center;
-}
-
-.shopping-cart li a {
-    color: #272727;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.shopping-cart .cart-details {
-    padding-bottom: 30px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #d1d5db;
-}
-
-.shopping-cart .cart-details li {
-    min-height: 150px;
-}
 
 .shopping-cart .cart-details h6 {
     font-weight: normal;
@@ -2020,8 +1976,7 @@ section {
     border-bottom: none !important;
 }
 
-.shopping-cart .cart-ship-info .grand-total {
-}
+
 
 .shopping-cart .cart-ship-info .grand-total h4 {
     font-size: 20px;
@@ -2039,8 +1994,6 @@ section {
     margin-bottom: 10px;
 }
 
-.shopping-cart .cart-ship-info .grand-total .btn:hover {
-}
 
 .shopping-cart .grand-total p span {
     float: right;
@@ -2325,8 +2278,6 @@ input[type="number"] {
     z-index: 1;
 }
 
-.main-half-layout-container.half_left_layout:before {
-}
 
 .main-half-layout-container.half_left_layout:after {
     content: "";
@@ -2365,8 +2316,7 @@ input[type="number"] {
     z-index: 1;
 }
 
-.main-half-layout-container.half_right_layout:before {
-}
+
 
 .main-half-layout-container.half_right_layout:after {
     content: "";
@@ -2487,8 +2437,7 @@ input[type="number"] {
     position: relative;
 }
 
-.knowledge-share:before {
-}
+
 
 .knowledge-share .date span {
     color: #2d3a4b;
@@ -2514,8 +2463,6 @@ input[type="number"] {
     max-width: 100%;
 }
 
-.knowledge-share li:nth-child(4) {
-}
 
 .knowledge-share .date {
     position: relative;
@@ -2553,8 +2500,7 @@ input[type="number"] {
     font-weight: bold;
 }
 
-.knowledge-share p {
-}
+
 
 .knowledge-share a {
     font-weight: 500;
@@ -2668,8 +2614,6 @@ input[type="number"] {
     width: 100%;
 }
 
-.comments .media-body a {
-}
 
 .comments {
     margin-top: 30px;
@@ -3040,8 +2984,6 @@ input[type="number"] {
     list-style: none;
 }
 
-.shipment ul li:nth-last-child(1) {
-}
 
 .shipment ul li h3 {
     margin: 0px;
@@ -4026,11 +3968,6 @@ main {
     color: #ffffff;
 }
 
-.no-touch .cd-nav .cd-primary-nav a:hover {
-}
-
-.cd-nav .cd-contact-info {
-}
 
 .cd-nav .cd-contact-info li {
     margin-bottom: 1.5em;
@@ -4081,10 +4018,6 @@ main {
     text-align: right;
 }
 
-.cd-nav .cd-contact-info li,
-.cd-nav .cd-contact-info a,
-.cd-nav .cd-contact-info span {
-}
 
 .no-js main {
     height: auto;
