@@ -90,9 +90,14 @@ def article_details(id):
         if len(words) > 50:
             post.main_content = ' '.join(words[:50]) + '...'  # Join first 50 words
 
+    # Create a safe meta description for articles
+    first_paragraph = article.main_content.split('\n')[0]  # Adjust as necessary to get the first paragraph
+    # Create a safe meta description
+    meta_description = first_paragraph[:165].strip() + ('...' if len(first_paragraph) > 165 else '')
+
     return render_template('home/article_detail.html',
                            article=article, category_blog_count=category_blog_count,
-                           recent_posts=recent_posts, similar_posts=similar_posts)
+                           recent_posts=recent_posts, similar_posts=similar_posts, meta_description = meta_description)
 
 
 # Route to display the article pricing page
