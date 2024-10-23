@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="RealtimeArticles offers engaging, informative articles across various topics.
+    <meta name="description" content="Realtime Articles offers engaging, informative articles across various topics.
      Dive into our rich content to enhance your knowledge and stay updated on current trends..">
 
     <meta name="author" content="M_Adnan">
@@ -153,20 +153,6 @@
                                     <div class="col-md-12">
                                         <a href="{{ url_for('home.article_details', id=article.id) }}">
                                             {% if article.main_image %}
-<<<<<<< HEAD
-                                            <img class="img-responsive"
-                                                src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}"
-                                                alt="Main Image">
-                                            <!-- <img class="img-responsive" 
-                                                src="{{ url_for('home.get_uploaded_image', filename=article.main_image_large) }}" 
-                                                srcset="{{ url_for('home.get_uploaded_image', filename=article.main_image_small) }} 480w, 
-                                                        {{ url_for('home.get_uploaded_image', filename=article.main_image_medium) }} 800w, 
-                                                        {{ url_for('home.get_uploaded_image', filename=article.main_image_large) }} 1080w" 
-                                                sizes="(max-width: 480px) 100vw, 
-                                                       (max-width: 800px) 50vw, 
-                                                       33vw" 
-                                                alt="Main Image"> -->
-=======
                                             	<img class="img-responsive" 
      src="{{ url_for('home.get_uploaded_image', filename=article.main_image_large) }}" 
      srcset="{{ url_for('home.get_uploaded_image', filename=article.main_image_small) }} 480w, 
@@ -176,7 +162,6 @@
             (max-width: 800px) 50vw, 
             33vw" 
      alt="Main Image">
->>>>>>> a07644fc9b0d00db15380341468821c2e5783030
 
                                             {% endif %}
                                         </a>
