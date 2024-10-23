@@ -1282,6 +1282,63 @@ section {
     font-weight: 600;
 }
 
+/* ====================================== */
+/* ARTICLE DETAILS H1 TITLE FORMATTING */
+
+.tittle{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.5;
+}
+
+/* ====================================== */
+/* STYLING FOR ARTICLE DETAILS HEADER SECTION  */
+/* Base styles */
+.article-detail {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px; /* Default size */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Adjust font size for tablets */
+@media (max-width: 992px) {
+    .article-detail {
+        font-size: 20px; /* Slightly smaller for tablets */
+    }
+
+    .breadcrumb a {
+        font-size: 40px;
+    }
+}
+
+/* Adjust font size for mobile devices */
+@media (max-width: 768px) {
+    .article-detail {
+        font-size: 18px; /* Smaller for mobile */
+    }
+
+    .breadcrumb a {
+        font-size: 14px;
+    }
+}
+
+/* Adjust font size for very small mobile devices */
+@media (max-width: 576px) {
+    .article-detail {
+        font-size: 16px; /* Further reduced for very small screens */
+    }
+
+    .breadcrumb a {
+        font-size: 12px;
+    }
+}
+
+
+
+
 /*=======================================================
 			Instagram Post
 ========================================================*/
@@ -3121,15 +3178,15 @@ input[type="number"] {
 .sub-bnr .breadcrumb li a {
     color: #333;
     text-transform: none;
-    font-weight: normal;
-    font-size: 12px;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .sub-bnr .breadcrumb > li + li:before {
     color: #7a8798;
     float: left;
     content: "/";
-    font-family: "Simple-Line-Icons";
+    font-family: "ubuntu";
 }
 
 /*=======================================================
