@@ -151,9 +151,16 @@
                                     <div class="col-md-12">
                                         <a href="{{ url_for('home.article_details', id=article.id) }}">
                                             {% if article.main_image %}
-                                            <img class="img-responsive"
-                                                src="{{ url_for('home.get_uploaded_image', filename=article.main_image) }}"
-                                                alt="Main Image">
+                                            	<img class="img-responsive" 
+     src="{{ url_for('home.get_uploaded_image', filename=article.main_image_large) }}" 
+     srcset="{{ url_for('home.get_uploaded_image', filename=article.main_image_small) }} 480w, 
+             {{ url_for('home.get_uploaded_image', filename=article.main_image_medium) }} 800w, 
+             {{ url_for('home.get_uploaded_image', filename=article.main_image_large) }} 1080w" 
+     sizes="(max-width: 480px) 100vw, 
+            (max-width: 800px) 50vw, 
+            33vw" 
+     alt="Main Image">
+
                                             {% endif %}
                                         </a>
                                     </div>
