@@ -1,3 +1,4 @@
+import os
 from flask import *
 from models.models import Article, Category
 from models.database import db
@@ -55,7 +56,8 @@ def index():
     for article in articles:
         words = article.main_content.split()  # Split content into words
         if len(words) > 50:
-            article.main_content = ' '.join(words[:50]) + '...'  # Join first 50 words
+            article.main_content = ' '.join(
+                words[:50]) + '...'  # Join first 50 words
     return render_template('home/blog_list.html',
                            articles=articles, title=title, pages=pages)
 
@@ -80,7 +82,8 @@ def article_details(id):
         .group_by(Category.id) \
         .order_by(Category.id) \
         .all()
-    recent_posts = Article.query.order_by(Article.date_published.desc()).limit(4)
+    recent_posts = Article.query.order_by(
+        Article.date_published.desc()).limit(4)
 
     # Query to fetch similar posts belong to the same category
     similar_posts = Article.query.filter_by(category=article.category).filter(Article.id != article.id).order_by(
@@ -88,16 +91,19 @@ def article_details(id):
     for post in similar_posts:
         words = post.main_content.split()  # Split content into words
         if len(words) > 50:
-            post.main_content = ' '.join(words[:50]) + '...'  # Join first 50 words
+            post.main_content = ' '.join(
+                words[:50]) + '...'  # Join first 50 words
 
     # Create a safe meta description for articles
-    first_paragraph = article.main_content.split('\n')[0]  # Adjust as necessary to get the first paragraph
+    # Adjust as necessary to get the first paragraph
+    first_paragraph = article.main_content.split('\n')[0]
     # Create a safe meta description
-    meta_description = first_paragraph[:165].strip() + ('...' if len(first_paragraph) > 165 else '')
+    meta_description = first_paragraph[:165].strip(
+    ) + ('...' if len(first_paragraph) > 165 else '')
 
     return render_template('home/article_detail.html',
                            article=article, category_blog_count=category_blog_count,
-                           recent_posts=recent_posts, similar_posts=similar_posts, meta_description = meta_description)
+                           recent_posts=recent_posts, similar_posts=similar_posts, meta_description=meta_description)
 
 
 # Route to display the article pricing page
@@ -112,7 +118,7 @@ def article_pricing():
     return render_template('home/article_pricing.html')
 
 
-@home.route('/contact_us', methods =['GET', 'POST'])
+@home.route('/contact_us', methods=['GET', 'POST'])
 def contact_us():
     """Function to enable user communication """
     return render_template('home/contact_us.html')

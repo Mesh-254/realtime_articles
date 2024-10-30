@@ -52,6 +52,15 @@ from models.models import User, Article
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Define the relative path to the ads.txt file based on the app's location
+ADS_TXT_DIRECTORY = os.path.join(os.path.dirname(__file__))
+
+@app.route('/ads.txt')
+def ads_txt():
+    """Function to serve the ads.txt file"""
+    return send_from_directory(ADS_TXT_DIRECTORY, 'ads.txt')
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
