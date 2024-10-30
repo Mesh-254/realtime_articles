@@ -1,9 +1,0 @@
-.idea
-.gitignore
-.env
-__pycache__
-*.gz
-static/uploads
-venv
-blueprints/__pycache__/
-realtime_articles.db
