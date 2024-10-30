@@ -2,7 +2,8 @@
 .gitignore
 .env
 __pycache__
-realtime_articles.db
 *.gz
 static/uploads
 venv
+blueprints/__pycache__/
+realtime_articles.db
